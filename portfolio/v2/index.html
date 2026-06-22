@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>张韵婷 — Portfolio</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+/* ═══════════════════════════════
+   100% FEDERICOPIAN.COM CLONE
+   ═══════════════════════════════ */
+:root {
+  --size: 390; --size-cap: 14px;
+  --bg: #E7E4DF; --primary: #0D0E0F; --secondary: #2A2A2A;
+  --muted: #8A8780; --border: rgba(0,0,0,0.2);
+  --circle-bg: rgba(0,0,0,0.08); --circle-fill: rgba(0,0,0,0.55);
+  --switch: #000;
+  --ease-color: cubic-bezier(0.4,0,0.2,1);
+  --ease-nav: cubic-bezier(0.43,0.195,0.02,1);
+  --ease-cta: cubic-bezier(0.215,0.61,0.355,1);
+  --ease-img: cubic-bezier(0.165,0.84,0.44,1);
+  --ease-expo: cubic-bezier(0.19,1,0.22,1);
+}
+html.dark {
+  --bg: #262626; --primary: #E8E8E8; --secondary: #C0C0BF;
+  --muted: #8A8A88; --border: hsla(0,0%,100%,0.2);
+  --circle-bg: rgba(97,97,97,0.15); --circle-fill: rgba(97,97,97,0.55);
+  --switch: #FFF;
+}
+html {
+  font-size: min(14 * 100vw / var(--size), var(--size-cap));
+  color: var(--secondary);
+  transition: color 0.3s var(--ease-color);
+  height: 100%; overflow: hidden;
+}
+@media (min-width: 1024px) { :root { --size: 1920; --size-cap: 20px; } }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-weight: 400;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  height: 100dvh; overflow: hidden; position: relative;
+  background: transparent;
+}
+a { text-decoration: none; color: inherit; }
+button { border: none; background: none; cursor: pointer; font: inherit; color: inherit; }
+.c-primary { color: var(--primary); transition: color 0.3s var(--ease-color); }
+.c-secondary { color: var(--secondary); transition: color 0.3s var(--ease-color); }
+
+/* CANVAS BACKGROUND */
+#bgCanvas { position: fixed; inset: 0; z-index: 0; display: block; pointer-events: none; }
+
+/* GLASS OVERLAY + NOISE */
+.glass-overlay {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; transform: translateZ(0);
+}
+.glass-overlay::after {
+  content: ''; position: absolute; inset: -50%; width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 128px 128px; opacity: 0; pointer-events: none; display: none;
+}
+html.dark .glass-overlay { background: rgba(0,0,0,0.4); }
+html.dark .glass-overlay::after { display: block; opacity: 0.3; animation: noise 2s steps(3) infinite both; }
+@keyframes noise {
+  0%{transform:translate(0,0)} 10%{transform:translate(-5%,-5%)} 20%{transform:translate(-10%,5%)}
+  30%{transform:translate(5%,-10%)} 40%{transform:translate(-5%,15%)} 50%{transform:translate(-10%,5%)}
+  60%{transform:translate(15%,0)} 70%{transform:translate(0,10%)} 80%{transform:translate(-15%,0)}
+  90%{transform:translate(10%,5%)} 100%{transform:translate(5%,0)}
+}
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 2rem 2rem; transition: opacity 0.4s ease; }
+@media (min-width: 1024px) { .nav { padding: 4rem 8rem 10rem; } }
+.nav__left { display: flex; align-items: center; }
+.nav__logo { display: flex; align-items: center; gap: 0.3rem; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 2rem; font-weight: 500; color: var(--primary); letter-spacing: -0.03em; transition: color 0.3s var(--ease-color); }
+.nav__logo-line { width: 3.4rem; height: 1px; background: var(--border); transform-origin: 50% 50%; transition: transform 0.3s var(--ease-nav), background 0.3s var(--ease-color); }
+.nav__logo-p { transition: transform 0.3s var(--ease-nav); }
+@media (hover:hover) {
+  .nav__logo:hover .nav__logo-line { transform: scale(0); }
+  .nav__logo:hover .nav__logo-p { transform: translate3d(-0.5rem,0,0); }
+}
+.nav__location { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; color: var(--secondary); margin-left: 8rem; display: none; text-transform: uppercase; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .nav__location { display: block; } }
+.nav__right { display: flex; align-items: center; }
+.nav__links { display: none; gap: 0; align-items: center; list-style: none; margin-right: 8rem; }
+@media (min-width: 1024px) { .nav__links { display: flex; } }
+.nav__link { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--secondary); text-transform: uppercase; cursor: pointer; position: relative; padding: 0; transition: color 0.3s var(--ease-color); }
+.nav__link--bilingual { display: flex; flex-direction: column; align-items: center; line-height: 1.2; }
+.nav__link--bilingual span:first-child { font-size: 1.2rem; }
+.nav__link--bilingual span:last-child { font-size: 0.9rem; opacity: 0.6; }
+.nav__link::before { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 1px; background: var(--secondary); transform: scaleX(0); transform-origin: 100% 100%; transition: transform 0.6s var(--ease-nav); }
+.nav__link:hover::before, .nav__link.active::before { transform: scaleX(1); transform-origin: 0 100%; }
+.nav__link.active { color: var(--primary); }
+.nav__divider { width: 1.6rem; height: 1px; background: var(--border); transform: rotate(-45deg); margin: 0 0.5rem 0 1rem; flex-shrink: 0; transition: background 0.3s var(--ease-color); }
+.theme-toggle { width: 2rem; height: 2rem; border-radius: 9999px; background: var(--switch); flex-shrink: 0; transition: background 0.3s var(--ease-color), transform 0.2s ease; }
+.theme-toggle:active { transform: scale(0.9); }
+
+/* CHAPTERS */
+.chapter { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; padding: 6rem 2rem; z-index: 1; }
+.chapter.active { opacity: 1; pointer-events: auto; }
+@media (min-width: 1024px) { .chapter { padding: 10rem 8rem; } }
+.chapter__inner { max-width: 80rem; text-align: center; position: relative; z-index: 1; }
+
+/* TAG */
+.chapter__tag { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-style: italic; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1.5rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .chapter__tag { font-size: 1.4rem; margin-bottom: 2rem; } }
+
+/* HERO TITLE */
+.hero-title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: clamp(4.8rem, 8vw, 12.8rem); font-weight: 400; font-style: italic; color: var(--primary); line-height: 0.85; letter-spacing: -0.04em; text-shadow: 0 0 3px rgba(255,255,255,0.4); transition: color 0.3s var(--ease-color); }
+.hero-title .char { display: inline-block; position: relative; }
+.hero-tagline { font-family: 'Noto Sans SC','Jost'; font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 300; color: var(--secondary); line-height: 1.6; margin-top: 2rem; letter-spacing: 0.02em; transition: color 0.3s var(--ease-color); }
+.hero-desc { font-family: 'Noto Sans SC','Jost'; font-size: clamp(1.3rem, 1.8vw, 1.6rem); font-weight: 300; color: var(--muted); line-height: 1.8; margin-top: 2.5rem; max-width: 48rem; margin-left: auto; margin-right: auto; letter-spacing: 0.02em; transition: color 0.3s var(--ease-color); }
+
+/* CHAPTER HEADING */
+.chapter-heading { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: clamp(3.6rem, 6vw, 9.6rem); font-weight: 400; font-style: italic; color: var(--primary); line-height: 0.85; letter-spacing: -0.04em; text-align: left; margin-bottom: 3rem; text-shadow: 0 0 2px rgba(255,255,255,0.35); transition: color 0.3s var(--ease-color); }
+.chapter-heading .char { display: inline-block; position: relative; }
+
+/* META */
+.chapter__meta { display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 2.5rem; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.04em; transition: color 0.3s var(--ease-color); }
+.chapter__meta-divider { width: 1.6rem; height: 1px; background: var(--border); transform: rotate(-45deg); flex-shrink: 0; transition: background 0.3s var(--ease-color); }
+
+/* CTA */
+.cta { display: inline-flex; align-items: center; gap: 1.5rem; padding: 0.6rem 1.2rem; border: 1px solid var(--primary); border-radius: 1rem; background: transparent; color: var(--primary); font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; margin-top: 3rem; transition: border-color 0.3s var(--ease-color), color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .cta { padding: 1rem 1.5rem; font-size: 1.4rem; border-radius: 1.5rem; } }
+.cta__icon-wrap { position: relative; width: 1.4rem; height: 1.4rem; overflow: hidden; }
+@media (min-width: 1024px) { .cta__icon-wrap { width: 1.8rem; height: 1.8rem; } }
+.cta__icon { width: 100%; height: 100%; stroke: currentColor; fill: none; transition: transform 0.4s var(--ease-cta); }
+.cta__icon--clone { position: absolute; left: 0; top: 0; transform: translate3d(-120%,0,0); }
+@media (hover:hover) { .cta:hover .cta__icon { transform: translate3d(120%,0,0); } .cta:hover .cta__icon--clone { transform: translate3d(0,0,0); } }
+.hero-ctas { display: flex; gap: 1.5rem; margin-top: 3.5rem; justify-content: center; flex-wrap: wrap; }
+@media (min-width: 1024px) { .hero-ctas { gap: 2rem; } }
+
+/* CONTACT POPUP */
+.popup-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.popup-overlay.open { opacity: 1; pointer-events: auto; }
+.popup-card { background: var(--bg); border-radius: 1rem; padding: 3rem; max-width: 36rem; width: 90%; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.15); transition: background 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .popup-card { padding: 4rem; border-radius: 1.5rem; } }
+.popup-close { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; color: var(--muted); cursor: pointer; line-height: 1; transition: color 0.3s var(--ease-color); }
+.popup-close:hover { color: var(--primary); }
+.popup-title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 2rem; font-weight: 500; font-style: italic; color: var(--primary); margin-bottom: 2rem; text-shadow: 0 0 2px rgba(255,255,255,0.3); transition: color 0.3s var(--ease-color); }
+.popup-body { display: flex; flex-direction: column; gap: 1.2rem; }
+.popup-row { display: flex; gap: 1.5rem; align-items: baseline; font-size: 1.4rem; color: var(--secondary); transition: color 0.3s var(--ease-color); }
+.exp-img { width:14rem; height:14rem; border-radius:9999px; object-fit:cover; display:block; }
+.exp-img + .exp-img { margin-top:1.5rem; }
+@media (min-width:1024px) { .exp-img { width:18rem; height:18rem; } }
+
+/* SKILL TAGS */
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2rem; }
+.skill-tag { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.1rem; font-weight: 500; color: var(--secondary); padding: 0.4rem 1rem; border: 1px solid var(--border); border-radius: 1rem; transition: color 0.3s var(--ease-color), border-color 0.3s var(--ease-color); }
+
+/* CONTACT GRID */
+.contact-grid { display: flex; flex-direction: column; gap: 2rem; max-width: 40rem; margin: 0 auto; }
+.contact-card { text-align: center; padding: 2rem; border: 1px solid var(--border); border-radius: 1rem; transition: border-color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .contact-card { padding: 2.5rem; border-radius: 1.5rem; } }
+.contact-card__label { display: block; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; transition: color 0.3s var(--ease-color); }
+.contact-card__val { display: block; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.6rem; font-weight: 500; color: var(--primary); transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .contact-card__val { font-size: 2rem; } }
+
+/* BACK BUTTON */
+.back-btn { position: fixed; top: 2rem; left: 2rem; z-index: 101; display: none; align-items: center; gap: 0.8rem; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--primary); text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; padding: 0.6rem 1.2rem; border-radius: 0.8rem; background: rgba(231,228,223,0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; transition: color 0.3s var(--ease-color), opacity 0.3s ease, background 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .back-btn { top: 4rem; left: 8rem; font-size: 1.4rem; } }
+.back-btn svg { width: 2rem; height: 1.2rem; stroke: currentColor; fill: none; transition: transform 0.3s var(--ease-cta); }
+.back-btn:hover svg { transform: translateX(-3px); }
+.back-btn.visible { display: flex; }
+html.dark .back-btn { background: rgba(38,38,38,0.7); }
+
+/* DETAIL MODE — chapter becomes scrollable page */
+body.detail-active { overflow-y: auto; overflow-x: hidden; }
+body.detail-active .nav { opacity: 0; pointer-events: none; }
+body.detail-active .progress-wrap,
+body.detail-active .chapter-preview,
+body.detail-active .scroll-indicator { opacity: 0; pointer-events: none; }
+.chapter.detail-mode { position: relative; min-height: 100dvh; overflow: visible; padding-top: 8rem; padding-bottom: 6rem; align-items: flex-start; }
+@media (min-width: 1024px) { .chapter.detail-mode { padding-top: 14rem; padding-bottom: 10rem; } }
+.chapter__overview { transition: opacity 0.4s ease; }
+.chapter.detail-mode .chapter__overview { display: none; }
+.chapter__detail { display: none; max-width: 90rem; margin: 0 auto; text-align: left; width: 100%; padding: 0 2rem; }
+@media (min-width: 1024px) { .chapter__detail { max-width: none; padding: 0; } }
+.chapter.detail-mode .chapter__detail { display: block; }
+.detail-content h3 { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.6rem; font-weight: 500; color: var(--primary); letter-spacing: -0.05em; margin: 2.5rem 0 0.8rem; }
+@media (min-width: 1024px) { .detail-content h3 { font-size: 2rem; } }
+.detail-content p { font-size: 1.4rem; line-height: 1.8; color: var(--secondary); letter-spacing: -0.02em; margin-bottom: 1.2rem; }
+@media (min-width: 1024px) { .detail-content p { font-size: 1.6rem; } }
+.detail-content ul { list-style: none; padding: 0; }
+.detail-content ul li { font-size: 1.4rem; line-height: 1.9; color: var(--secondary); letter-spacing: -0.05em; padding-left: 1.5rem; position: relative; margin-bottom: 0.8rem; }
+.detail-content ul li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 5px; height: 5px; border-radius: 50%; background: var(--circle-fill); }
+.detail-content .detail-tags { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1.5rem 0; }
+.detail-content .detail-tag { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; padding: 0.3rem 1rem; border: 1px solid var(--border); border-radius: 1rem; transition: color 0.3s var(--ease-color), border-color 0.3s var(--ease-color); }
+.detail-content .detail-divider { width: 100%; height: 1px; background: var(--border); margin: 2.5rem 0; transition: background 0.3s var(--ease-color); }
+
+/* ──── DETAIL PAGE — 100% clone Darko Bratina layout ──── */
+
+/* Hero row: title left + metadata right (mobile: stacked, desktop: fixed) */
+.detail-hero { display: flex; flex-direction: column; gap: 3rem; margin-bottom: 5rem; }
+@media (min-width: 1024px) {
+  .detail-hero { display: block; margin-bottom: 0; }
+  /* Left title area — fixed, clones reference: fixed top-[14rem] left-[7.2rem] */
+  .detail-hero__left {
+    position: fixed; left: 7.2rem; top: 14rem; width: 26rem; z-index: 5;
+  }
+  /* Right metadata — fixed, clones reference: fixed top-[14rem] right-80 */
+  .detail-hero__right {
+    position: fixed; right: 8rem; top: 14rem; width: 20rem; z-index: 5;
+  }
+}
+.detail-hero__left { flex: 1; min-width: 0; }
+.detail-hero__right { flex-shrink: 0; }
+@media (max-width: 1023px) { .detail-hero__right { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; } }
+
+/* Hero left: number + title + desc (matches reference fixed left area) */
+.detail-hero__number { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: -0.05em; margin-bottom: 0.8rem; }
+.detail-hero__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: clamp(3.6rem,7vw,9.6rem); font-weight: 400; font-style: italic; color: var(--primary); line-height: 0.8; letter-spacing: -0.05em; transition: color 0.3s var(--ease-color); }
+.detail-hero__sub { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 400; color: var(--muted); text-transform: uppercase; letter-spacing: -0.05em; line-height: 1; margin-top: 0.5rem; margin-bottom: 1.5rem; }
+@media (min-width: 1024px) { .detail-hero__sub { font-size: 1.6rem; } }
+.detail-hero__desc { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 300; color: var(--secondary); line-height: 1.5; letter-spacing: -0.02em; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .detail-hero__desc { font-size: 2rem; line-height: 1.4; max-width: 24rem; } }
+
+/* Hero right: metadata (matches reference fixed right sidebar) */
+.detail-meta-group { margin-bottom: 1.6rem; }
+@media (min-width: 1024px) { .detail-meta-group { margin-bottom: 2rem; } }
+.detail-meta-label { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--primary); text-transform: uppercase; letter-spacing: -0.05em; line-height: 1; margin-bottom: 0.2rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .detail-meta-label { font-size: 1.4rem; } }
+.detail-meta-value { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-weight: 400; color: var(--secondary); line-height: 1.3; letter-spacing: -0.02em; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .detail-meta-value { font-size: 1.4rem; } }
+
+/* GALLERY — centered between fixed left/right, scrolls with page */
+.detail-gallery-wrap { display: flex; flex-direction: column; gap: 1.5rem; padding-bottom: 6rem; }
+@media (min-width: 1024px) {
+  .detail-gallery-wrap { gap: 5rem; padding-bottom: 8rem; margin: 0 auto; max-width: 57rem; }
+}
+/* Mobile: horizontal scroll */
+@media (max-width: 1023px) {
+  .detail-gallery-wrap { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; gap: 1rem; padding-bottom: 3rem; -webkit-overflow-scrolling: touch; }
+}
+.detail-gallery__item { flex-shrink: 0; border-radius: 2rem; overflow: hidden; }
+@media (max-width: 1023px) { .detail-gallery__item { width: 21rem; height: 12rem; } }
+@media (min-width: 1024px) { .detail-gallery__item { width: 57rem; height: 33rem; margin: 0 auto; } }
+/* Placeholder card with dashed border */
+.detail-gallery__placeholder {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background: var(--circle-bg); border: 1px dashed var(--border);
+  border-radius: inherit; transition: background 0.3s var(--ease-color), border-color 0.3s var(--ease-color);
+}
+.detail-gallery__label { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.6rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: -0.05em; }
+@media (min-width: 1024px) { .detail-gallery__label { font-size: 2.4rem; } }
+/* Scroll reveal state */
+.detail-gallery__item[data-reveal] { opacity: 0; transform: translateY(3rem); transition: opacity 0.6s cubic-bezier(0.165,0.84,0.44,1), transform 0.6s cubic-bezier(0.165,0.84,0.44,1); }
+.detail-gallery__item[data-reveal].revealed { opacity: 1; transform: translateY(0); }
+
+/* Skill cards — Canvas gradient + text overlay + line hover */
+.detail-gallery__item--skill { position: relative; }
+.detail-gallery__item--skill .detail-gallery__placeholder { display: none; }
+.skill-card__canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; display: block; }
+.skill-card__overlay { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.05) 70%); }
+.dark .skill-card__overlay { background: radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.10) 70%); }
+.skill-card__overlay .skill-card__title { color: #fff !important; }
+.skill-card__overlay .skill-line-item { color: rgba(255,255,255,0.85) !important; }
+.skill-card__overlay .skill-line-item::before,
+.skill-card__overlay .skill-line-item::after { background: rgba(255,255,255,0.7); }
+.skill-card__overlay .skill-line-item:hover { color: #fff !important; }
+.skill-card__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 600; color: var(--primary); letter-spacing: -0.02em; margin-bottom: 1.2rem; }
+@media (min-width: 1024px) { .skill-card__title { font-size: 1.8rem; margin-bottom: 1.6rem; } }
+.skill-card__items { display: flex; flex-wrap: wrap; gap: 0.8rem 1.6rem; justify-content: center; }
+/* Line sliding hover items */
+.skill-line-item { position: relative; display: inline-block; padding: 0.4rem 0.3rem; cursor: default; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.1rem; font-weight: 400; color: var(--secondary); letter-spacing: -0.02em; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .skill-line-item { font-size: 1.3rem; } }
+.skill-line-item::before,
+.skill-line-item::after { content: ''; position: absolute; height: 1px; background: var(--primary); transition: transform 0.4s cubic-bezier(0.215,0.61,0.355,1); }
+.skill-line-item::before { top: 0; left: 0; width: 100%; transform: scaleX(0); transform-origin: left center; }
+.skill-line-item::after { bottom: 0; right: 0; width: 100%; transform: scaleX(0); transform-origin: right center; }
+.skill-line-item:hover { color: var(--primary); }
+.skill-line-item:hover::before { transform: scaleX(1); }
+.skill-line-item:hover::after { transform: scaleX(1); }
+/* Color palette bar at card bottom */
+.skill-card__palette { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; display: flex; height: 0.5rem; }
+@media (min-width: 1024px) { .skill-card__palette { height: 0.6rem; } }
+.skill-card__palette span { flex: 1; }
+
+/* Body text below gallery (scrolls with page) */
+.detail-body-text { margin-top: 4rem; }
+@media (min-width: 1024px) { .detail-body-text { max-width: 57rem; margin: 4rem auto 0; } }
+.detail-body-text h3 { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 500; color: var(--primary); letter-spacing: -0.05em; line-height: 1; margin: 0 0 0.6rem; }
+@media (min-width: 1024px) { .detail-body-text h3 { font-size: 1.6rem; } }
+.detail-body-text p { font-size: 1.3rem; line-height: 1.8; color: var(--secondary); letter-spacing: -0.02em; margin-bottom: 1.6rem; }
+@media (min-width: 1024px) { .detail-body-text p { font-size: 1.4rem; margin-bottom: 2rem; } }
+.detail-body-text ul { list-style: none; padding: 0; }
+.detail-body-text ul li { font-size: 1.3rem; line-height: 1.9; color: var(--secondary); padding-left: 1.5rem; position: relative; margin-bottom: 0.8rem; }
+.detail-body-text ul li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 5px; height: 5px; border-radius: 50%; background: var(--primary); opacity: 0.4; }
+
+
+/* Root-level fixed detail-next (clone reference: 28rem→20rem at our font) */
+.detail-next { display: none; }
+body.detail-active .detail-next {
+  display: block; position: fixed; z-index: 98; cursor: pointer;
+  right: 2rem; bottom: 2rem; width: 10rem; height: 10rem; border-radius: 9999px; overflow: hidden;
+}
+@media (min-width: 1024px) {
+  body.detail-active .detail-next { right: 8rem; bottom: 4rem; width: 20rem; height: 20rem; }
+}
+.detail-next__inner { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: stretch; justify-content: space-between; padding: 0.6rem 0.8rem; }
+.detail-next__top, .detail-next__bottom { display: flex; align-items: center; justify-content: space-between; }
+.detail-next__label, .detail-next__year {
+  font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  font-size: 0.65rem; font-weight: 500; color: #fff; text-transform: uppercase; letter-spacing: 0.04em; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+@media (min-width: 1024px) { .detail-next__label, .detail-next__year { font-size: 0.8rem; } }
+.detail-next__dot { width: 0.25rem; height: 0.25rem; border-radius: 9999px; background: #fff; opacity: 0.7; }
+@media (min-width: 1024px) { .detail-next__dot { width: 0.3rem; height: 0.3rem; } }
+.detail-next__img { width: 100%; height: 100%; object-fit: cover; border-radius: 9999px; position: absolute; inset: 0; z-index: 1; }
+.chapter-preview { position: fixed; bottom: 2rem; right: 2rem; z-index: 98; width: 10rem; height: 10rem; border-radius: 9999px; overflow: hidden; background: var(--circle-bg); cursor: pointer; transition: background 0.3s var(--ease-color), transform 0.2s ease; }
+@media (min-width: 1024px) { .chapter-preview { bottom: 4rem; right: 8rem; width: 20rem; height: 20rem; } }
+.chapter-preview__img { width: 100%; height: 100%; object-fit: cover; border-radius: 9999px; transition: transform 1s var(--ease-img); }
+.chapter-preview__placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-style: italic; color: var(--muted); transition: color 0.3s var(--ease-color); }
+@media (hover:hover) { .chapter-preview:hover .chapter-preview__img { transform: scale(1.1); } }
+.chapter-preview:active { transform: scale(0.95); }
+
+/* PROGRESS CIRCLE */
+.progress-wrap { position: fixed; bottom: 2rem; left: 1rem; z-index: 99; width: 10rem; height: 10rem; display: flex; align-items: center; justify-content: center; text-align: center; text-transform: uppercase; }
+@media (min-width: 1024px) { .progress-wrap { bottom: 4rem; left: 5rem; width: 20rem; height: 20rem; } }
+.progress-svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 0; transform: rotate(-90deg); }
+.progress-svg__bg { fill: none; stroke: var(--border); stroke-width: 2; transition: stroke 0.3s var(--ease-color); }
+.progress-svg__fill { fill: none; stroke: var(--primary); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 880; transition: stroke 0.3s var(--ease-color), stroke-dashoffset 0.8s var(--ease-expo); }
+.progress__num-wrap { z-index: 1; display: flex; align-items: baseline; }
+.progress__num { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 2.8rem; font-weight: 500; color: var(--primary); line-height: 0.8; letter-spacing: -0.05em; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .progress__num { font-size: 5.6rem; } }
+.progress__label { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 0.75rem; font-weight: 400; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; position: absolute; bottom: 1.5rem; z-index: 1; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .progress__label { font-size: 1rem; bottom: 3rem; } }
+.progress__arrow { position: absolute; top: 50%; z-index: 2; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; transform: translateY(-50%); }
+.progress__arrow--prev { left: 0.2rem; } .progress__arrow--next { right: 0.2rem; }
+@media (min-width: 1024px) { .progress__arrow { width: 3rem; height: 3rem; } .progress__arrow--prev { left: 0.8rem; } .progress__arrow--next { right: 0.8rem; } }
+.progress__arrow svg { width: 100%; height: 100%; stroke: var(--primary); fill: none; transition: transform 0.4s var(--ease-cta), stroke 0.3s var(--ease-color); }
+.progress__arrow svg.clone { position: absolute; left: 0; top: 0; }
+.progress__arrow--prev svg.clone { transform: translate3d(-120%,0,0); }
+.progress__arrow--next svg.clone { transform: translate3d(120%,0,0); }
+@media (hover:hover) {
+  .progress__arrow--prev:hover > svg:first-of-type { transform: translate3d(-120%,0,0); }
+  .progress__arrow--prev:hover > svg.clone { transform: translate3d(0,0,0); }
+  .progress__arrow--next:hover > svg:first-of-type { transform: translate3d(120%,0,0); }
+  .progress__arrow--next:hover > svg.clone { transform: translate3d(0,0,0); }
+}
+.progress-desc { position: fixed; bottom: 2.2rem; z-index: 97; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; display: none; max-width: 18rem; line-height: 1.3; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .progress-desc { display: block; bottom: 4.5rem; left: calc(5rem + 20rem + 2rem); font-size: 1.2rem; } }
+
+/* CORNER LABELS */
+.corner-br { position: fixed; top: 2rem; right: 2rem; z-index: 98; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1rem; font-style: italic; color: var(--muted); transition: color 0.3s var(--ease-color); }
+.corner-bl { position: fixed; bottom: 2rem; z-index: 97; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-style: italic; color: var(--muted); transition: color 0.3s var(--ease-color); }
+.corner-br2 { position: fixed; bottom: 2rem; right: 2rem; z-index: 97; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-style: italic; color: var(--muted); transition: color 0.3s var(--ease-color); }
+@media (max-width: 1023px) { .corner-bl { display: none; } .corner-br2 { display: none; } }
+@media (min-width: 1024px) { .corner-br { display: none; } .corner-bl { bottom: 4rem; left: calc(8rem + 20rem + 2rem); } .corner-br2 { bottom: 4rem; right: 8rem; } }
+
+/* SCROLL INDICATOR */
+.scroll-indicator { position: fixed; bottom: calc(2rem + 12rem); right: 3rem; z-index: 96; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 0.9rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0; transition: opacity 0.4s ease, color 0.3s var(--ease-color); }
+.scroll-indicator.visible { opacity: 1; }
+@media (min-width: 1024px) { .scroll-indicator { bottom: calc(4rem + 30rem); right: 8rem; font-size: 1.1rem; } }
+.scroll-indicator__line { width: 1px; height: 3rem; background: var(--muted); transform-origin: top; transition: background 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .scroll-indicator__line { height: 5rem; } }
+
+/* ABOUT LAYOUT */
+.about-layout { display: flex; flex-direction: column; align-items: center; gap: 4rem; text-align: left; max-width: 90rem; margin: 0 auto; }
+@media (min-width: 1024px) { .about-layout { flex-direction: row; gap: 8rem; align-items: flex-start; } }
+.about-text { flex: 1; max-width: 48rem; }
+.about-text .body-text { font-family: 'Noto Sans SC','Jost'; font-size: 1.4rem; font-weight: 300; color: var(--secondary); line-height: 1.8; text-align: left; margin: 0 0 1.2rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .about-text .body-text { font-size: 1.5rem; } }
+.about-photo { flex-shrink: 0; }
+.about-photo__circle { width: 18rem; height: 18rem; border-radius: 9999px; background: var(--circle-bg); display: flex; align-items: center; justify-content: center; transition: background 0.3s var(--ease-color); }
+.about-photo__placeholder { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-style: italic; color: var(--muted); transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .about-photo__circle { width: 24rem; height: 24rem; } }
+.contact-info { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); text-align: left; transition: border-color 0.3s var(--ease-color); }
+.contact-info__item { display: flex; gap: 1.5rem; align-items: baseline; font-size: 1.3rem; font-weight: 300; color: var(--secondary); transition: color 0.3s var(--ease-color); }
+.contact-info__item + .contact-info__item { margin-top: 0.8rem; }
+.contact-info__label { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.1rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); min-width: 3.5rem; transition: color 0.3s var(--ease-color); }
+
+/* TIMELINE */
+.timeline { display: flex; flex-direction: column; gap: 4rem; text-align: left; max-width: 72rem; margin: 0 auto; }
+.timeline__item { position: relative; padding-left: 2rem; border-left: 1px solid var(--border); transition: border-color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .timeline__item { padding-left: 3rem; } }
+.timeline__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1.5rem; margin-bottom: 1rem; }
+.timeline__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 2.4rem; font-weight: 400; font-style: italic; color: var(--primary); line-height: 1.1; letter-spacing: -0.03em; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .timeline__title { font-size: 3.6rem; } }
+.timeline__role { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.06em; transition: color 0.3s var(--ease-color); }
+.timeline__tags { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.5rem; }
+.timeline__tag { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1rem; font-weight: 500; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em; padding: 0.2rem 0.8rem; border: 1px solid var(--border); border-radius: 1rem; transition: color 0.3s var(--ease-color), border-color 0.3s var(--ease-color); }
+.timeline__list { list-style: none; }
+.timeline__list li { font-family: 'Noto Sans SC','Jost'; font-size: 1.3rem; font-weight: 300; color: var(--secondary); line-height: 1.7; position: relative; padding-left: 1.2rem; transition: color 0.3s var(--ease-color); }
+.timeline__list li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 4px; height: 4px; border-radius: 50%; background: var(--circle-fill); transition: background 0.3s var(--ease-color); }
+.timeline__list li + li { margin-top: 0.8rem; }
+.placeholder-block { border: 1px dashed var(--border); padding: 3rem 2rem; text-align: center; color: var(--muted); font-size: 1.3rem; font-style: italic; max-width: 48rem; margin: 0 auto; transition: border-color 0.3s var(--ease-color), color 0.3s var(--ease-color); }
+
+/* ═══════════════════════════════════
+   CASE STUDY LAYOUT (故事板)
+   ═══════════════════════════════════ */
+.case-hero { padding: 4rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; transition: border-color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-hero { padding: 6rem 0 3rem; margin-bottom: 5rem; } }
+.case-hero__label { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-hero__label { font-size: 1.4rem; } }
+.case-hero__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: clamp(3rem,5vw,6.4rem); font-weight: 400; font-style: italic; color: var(--primary); line-height: 0.9; letter-spacing: -0.04em; margin-bottom: 1rem; transition: color 0.3s var(--ease-color); }
+.case-hero__sub { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 300; color: var(--secondary); line-height: 1.5; max-width: 56rem; margin-bottom: 2rem; letter-spacing: -0.02em; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-hero__sub { font-size: 1.8rem; } }
+.case-hero__tags { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+.case-hero__tag { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1rem; font-weight: 500; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; padding: 0.3rem 1rem; background: var(--circle-bg); border: 1px solid var(--border); border-radius: 1rem; transition: color 0.3s var(--ease-color), border-color 0.3s var(--ease-color), background 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-hero__tag { font-size: 1.1rem; } }
+
+/* Metrics Strip */
+.metrics-strip { display: flex; flex-wrap: wrap; gap: 3rem; padding: 2.5rem 0; margin-bottom: 3rem; border-bottom: 1px solid var(--border); transition: border-color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .metrics-strip { gap: 6rem; padding: 4rem 0; margin-bottom: 5rem; } }
+.metrics-strip__item { flex: 1; min-width: 10rem; }
+.metrics-strip__number { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: clamp(3.2rem,5vw,6rem); font-weight: 400; font-style: italic; color: var(--primary); line-height: 1; letter-spacing: -0.03em; display: block; transition: color 0.3s var(--ease-color); }
+.metrics-strip__label { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.1rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.5rem; display: block; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .metrics-strip__label { font-size: 1.2rem; } }
+
+/* Case Section (screenshot + text) */
+.case-section { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 4rem; }
+@media (min-width: 1024px) { .case-section { flex-direction: row; gap: 5rem; align-items: flex-start; margin-bottom: 6rem; } }
+.case-section--reverse { flex-direction: column; }
+@media (min-width: 1024px) { .case-section--reverse { flex-direction: row-reverse; } }
+.case-section__media { flex: 1; min-width: 0; border-radius: 1.5rem; overflow: hidden; background: var(--circle-bg); position: relative; transition: background 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-section__media { flex: 0 0 48%; } }
+.case-section__media img, .case-section__media video { width: 100%; height: auto; display: block; border-radius: 1.5rem; }
+.case-section__media-placeholder { width: 100%; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--border); border-radius: 1.5rem; font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; color: var(--muted); transition: border-color 0.3s var(--ease-color), color 0.3s var(--ease-color); }
+.case-section__text { flex: 1; min-width: 0; }
+.case-section__text h3 { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.8rem; font-weight: 500; font-style: italic; color: var(--primary); letter-spacing: -0.03em; margin-bottom: 1rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-section__text h3 { font-size: 2.4rem; margin-bottom: 1.5rem; } }
+.case-section__text p { font-size: 1.3rem; line-height: 1.8; color: var(--secondary); letter-spacing: -0.02em; margin-bottom: 1rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-section__text p { font-size: 1.5rem; } }
+.case-section__text ul { list-style: none; padding: 0; }
+.case-section__text ul li { font-size: 1.3rem; line-height: 1.8; color: var(--secondary); padding-left: 1.5rem; position: relative; margin-bottom: 0.6rem; letter-spacing: -0.02em; transition: color 0.3s var(--ease-color); }
+.case-section__text ul li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 4px; height: 4px; border-radius: 50%; background: var(--primary); opacity: 0.4; }
+
+/* Process Steps */
+.process-steps { margin-bottom: 4rem; }
+@media (min-width: 1024px) { .process-steps { margin-bottom: 6rem; } }
+.process-steps__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .process-steps__title { font-size: 1.2rem; margin-bottom: 3rem; } }
+.process-steps__row { display: flex; flex-direction: column; gap: 1.5rem; }
+@media (min-width: 1024px) { .process-steps__row { flex-direction: row; gap: 2rem; } }
+.process-step { flex: 1; padding: 2rem; border: 1px solid var(--border); border-radius: 1.5rem; position: relative; transition: border-color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .process-step { padding: 2.5rem; } }
+.process-step__num { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 3.2rem; font-weight: 400; font-style: italic; color: var(--primary); line-height: 1; margin-bottom: 1rem; display: block; opacity: 0.3; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .process-step__num { font-size: 4.8rem; } }
+.process-step__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 600; color: var(--primary); letter-spacing: -0.02em; margin-bottom: 0.5rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .process-step__title { font-size: 1.6rem; } }
+.process-step__desc { font-size: 1.2rem; line-height: 1.7; color: var(--secondary); letter-spacing: -0.02em; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .process-step__desc { font-size: 1.3rem; } }
+
+/* Results Block */
+.case-results { padding: 3rem; border: 1px solid var(--border); border-radius: 1.5rem; margin-bottom: 4rem; background: var(--circle-bg); transition: border-color 0.3s var(--ease-color), background 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-results { padding: 4rem; margin-bottom: 6rem; } }
+.case-results__label { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.1rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.5rem; display: block; transition: color 0.3s var(--ease-color); }
+.case-results__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 2rem; font-weight: 400; font-style: italic; color: var(--primary); letter-spacing: -0.03em; margin-bottom: 1.5rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-results__title { font-size: 2.8rem; } }
+.case-results p { font-size: 1.3rem; line-height: 1.8; color: var(--secondary); letter-spacing: -0.02em; margin-bottom: 1rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-results p { font-size: 1.5rem; } }
+.case-results ul { list-style: none; padding: 0; }
+.case-results ul li { font-size: 1.3rem; line-height: 1.9; color: var(--secondary); padding-left: 1.8rem; position: relative; margin-bottom: 0.6rem; letter-spacing: -0.02em; transition: color 0.3s var(--ease-color); }
+.case-results ul li::before { content: '→'; position: absolute; left: 0; top: 0; color: var(--primary); opacity: 0.5; }
+
+/* Case divider */
+.case-divider { width: 100%; height: 1px; background: var(--border); margin: 4rem 0; transition: background 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .case-divider { margin: 6rem 0; } }
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<div class="glass-overlay"></div>
+
+<nav class="nav">
+  <div class="nav__left">
+    <span class="nav__logo"><span class="nav__logo-line"></span><span class="nav__logo-p">张韵婷</span></span>
+    <span class="nav__location">常州, CST</span>
+  </div>
+  <div class="nav__right">
+    <div class="nav__links">
+      <button class="nav__link nav__link--bilingual active" data-chapter="0"><span>首页</span><span>Home</span></button>
+      <span class="nav__divider"></span>
+      <button class="nav__link nav__link--bilingual" data-chapter="1"><span>关于</span><span>About</span></button>
+      <span class="nav__divider"></span>
+      <button class="nav__link nav__link--bilingual" data-chapter="2"><span>经历</span><span>Experience</span></button>
+      <span class="nav__divider"></span>
+      <button class="nav__link nav__link--bilingual" data-chapter="3"><span>作品</span><span>Work</span></button>
+      <span class="nav__divider"></span>
+      <button class="nav__link nav__link--bilingual" data-chapter="4"><span>联系</span><span>Contact</span></button>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+  </div>
+</nav>
+
+<div class="scroll-indicator visible" id="scrollIndicator">
+  <span>Scroll</span>
+  <div class="scroll-indicator__line"></div>
+</div>
+
+
+<!-- CHAPTER 0 — HERO (Airbag palette: peach + rose + pink) -->
+<section class="chapter active" data-index="0" data-colors="255,150,85|185,60,100|223,151,173">
+  <div class="chapter__inner">
+    <h1 class="hero-title" data-split>Welcome</h1>
+    <p class="hero-tagline">好奇心带我走到这里，<br>还会带我去更远的地方。</p>
+    <div class="chapter__meta">
+      <span>AI Native</span>
+      <span class="chapter__meta-divider"></span>
+      <span>内容创作</span>
+      <span class="chapter__meta-divider"></span>
+      <span>快速学习</span>
+    </div>
+    <div class="hero-ctas">
+      <a class="cta" data-goto="1">
+        <span>About Me</span>
+        <span class="cta__icon-wrap">
+          <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+          <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+        </span>
+      </a>
+      <a class="cta" data-goto="4">
+        <span>联系我</span>
+        <span class="cta__icon-wrap">
+          <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+          <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+        </span>
+      </a>
+      <a class="cta" href="简历.pdf" download>
+        <span>简历</span>
+        <span class="cta__icon-wrap">
+          <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+          <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 1 — ABOUT + SKILLS -->
+<section class="chapter" data-index="1" data-colors="155,155,155|36,52,78|137,145,159">
+  <div class="chapter__overview">
+  <div class="chapter__inner about-layout">
+    <div class="about-text">
+      <p class="chapter__tag">01 — About</p>
+      <h2 class="chapter-heading" data-split>关于我</h2>
+      <p class="body-text">嗨，我是一名大二学生，工程管理专业，但我的技能树有点"杂"。</p>
+      <p class="body-text">在学业里，我主修 Python、CAD、管理和经济学，这培养了我的逻辑思维；在课余，我则悄悄学习 AI——从对大模型原理的好奇，到动手捣鼓 AI 智能体（Agent），甚至用 VibeCoding 来尝试创造，我享受着用新技术将想法建造出来的整个过程。</p>
+      <p class="body-text">我是个典型的 INTJ，喜欢在旅行和音乐中汲取灵感，也痴迷于用镜头捕捉世界的细节。我相信，对广阔世界的观察力与对精细技术的掌控力同样重要。</p>
+      <p class="body-text">目前，我正热切地寻找一份实习机会，希望将我的工程背景、对效率的追求，以及正在快速成长的 AI 应用能力，贡献给一个有挑战性的项目。</p>
+      <a class="cta visit-btn" href="#" style="margin-top:2.5rem;">
+        <span>了解更多</span>
+        <span class="cta__icon-wrap">
+          <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+          <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+        </span>
+      </a>
+    </div>
+    <div class="about-photo">
+      <div class="about-photo__circle"><img src="ef6f6693f1f924cbace3dd4c9b4ba328.jpg" alt="照片" style="width:100%;height:100%;object-fit:cover;border-radius:9999px;"></div>
+    </div>
+  </div>
+  </div>
+	  <div class="chapter__detail detail-content">
+	    <!-- SKILLS & EDUCATION CASE STUDY -->
+	    <div class="case-hero">
+	      <p class="case-hero__label">01 — Skill</p>
+	      <h2 class="case-hero__title">Skill</h2>
+	      <p class="case-hero__sub">始于好奇，成于实践 — 每一次尝试，世界就大一点。</p>
+	      <div class="case-hero__tags">
+	        <span class="case-hero__tag">AI / 编程</span>
+	        <span class="case-hero__tag">内容创作</span>
+	        <span class="case-hero__tag">荣誉证书</span>
+	      </div>
+	    </div>
+
+	    <div class="case-section">
+	      <div class="case-section__media" style="aspect-ratio:16/10;">
+	        <canvas class="skill-card__canvas" data-skill="ai" style="width:100%;aspect-ratio:16/10;border-radius:1.5rem;display:block;"></canvas>
+		        <img src="screenshots/fbc6b4c095ac829e94db7577c118e65f.jpg" alt="AI工具使用截图" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:1.5rem;z-index:1;">
+	        <div class="skill-card__overlay" style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;">
+	          <p class="skill-card__title" style="font-family:-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;font-size:1.8rem;font-weight:600;color:var(--primary);letter-spacing:-0.02em;margin-bottom:1.5rem;">AI / 编程</p>
+	          <div class="skill-card__items" style="display:flex;flex-wrap:wrap;gap:0.8rem 1.6rem;justify-content:center;">
+	            <span class="skill-line-item">ChatGPT</span>
+	            <span class="skill-line-item">DeepSeek</span>
+	            <span class="skill-line-item">Claude Code</span>
+	            <span class="skill-line-item">Gemini</span>
+	            <span class="skill-line-item">Codex</span>
+	            <span class="skill-line-item">Coze</span>
+	            <span class="skill-line-item">Trae</span>
+	            <span class="skill-line-item">GitHub</span>
+	            <span class="skill-line-item">Git</span>
+	            <span class="skill-line-item">VS Code</span>
+		            <span class="skill-line-item">Python</span>
+		            <span class="skill-line-item">SQL</span>
+	          </div>
+	        </div>
+	        <div class="skill-card__palette" id="paletteAi" style="position:absolute;bottom:0;left:0;right:0;z-index:3;display:flex;height:0.6rem;"></div>
+	      </div>
+	      <div class="case-section__text">
+	        <h3>AI / 编程</h3>
+	        <p>熟练使用主流 <strong>AI 工具</strong>和<strong>代码协作</strong>平台，从 <strong>Prompt Engineering</strong> 到<strong>低代码工作流</strong>，将想法高效落地。</p>
+	        <ul>
+	          <li>日常使用 <strong>ChatGPT / DeepSeek / Claude Code</strong> 辅助文案、检索和原型开发</li>
+	          <li>通过 <strong>Coze</strong> 搭建低代码 AI 工作流，<strong>Trae</strong> 辅助编码</li>
+	          <li><strong>GitHub / Git / VS Code</strong> 代码协作 + <strong>Python / SQL</strong> 基础编程与数据分析</li>
+	        </ul>
+	      </div>
+	    </div>
+		    <div class="case-section case-section--reverse">
+		      <div class="case-section__media">
+		        <div style="display:flex;flex-direction:row;gap:0.5rem;border-radius:1.5rem;overflow:hidden;aspect-ratio:16/10;">
+		          <img src="screenshots/2bc70b6c1a606ee99ed0c0979b19aae5.jpg" alt="自媒体截图1" style="width:50%;height:100%;display:block;object-fit:cover;">
+		          <img src="screenshots/1c85714eda24437df6aeb5924c8b734e.jpg" alt="自媒体截图2" style="width:50%;height:100%;display:block;object-fit:cover;">
+		        </div>
+		      </div>
+		      <div class="case-section__text">
+		        <h3>内容创作</h3>
+		        <p>从个人账号到企业实习，积累了完整的短视频创作和自媒体运营经验。</p>
+		        <ul>
+		          <li>剪映专业版剪辑，熟悉节奏、转场和字幕设计</li>
+		          <li>具备账号定位、选题策划和数据复盘的全流程能力</li>
+		          <li>在实习中建立了 AI 辅助内容生产的标准化流程</li>
+		        </ul>
+		      </div>
+		    </div>
+
+		    <div class="case-section">
+		      <div class="case-section__media" style="aspect-ratio:16/10;">
+		        <canvas class="skill-card__canvas" data-skill="office" style="width:100%;aspect-ratio:16/10;border-radius:1.5rem;display:block;"></canvas>
+		        <img src="screenshots/b9a20af3859160af67f7e45b3a8d6326.jpg" alt="荣誉证书" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:1.5rem;z-index:1;">
+		        <div class="skill-card__palette" id="paletteOffice" style="position:absolute;bottom:0;left:0;right:0;z-index:3;display:flex;height:0.6rem;"></div>
+		      </div>
+		      <div class="case-section__text">
+		        <h3>荣誉 & 证书</h3>
+		        <p><strong>商业精英挑战赛国家二等奖</strong>。英语四六级（CET-4 / CET-6）均已通过，普通话二级甲等。</p>
+		        <ul>
+		          <li><strong>商业精英挑战赛</strong> — 国家二等奖</li>
+		          <li><strong>大学英语四级（CET-4）/ 六级（CET-6）</strong></li>
+		          <li><strong>普通话二级甲等</strong></li>
+		        </ul>
+		      </div>
+		    </div>
+
+		  </div>
+		</section>
+
+	<!-- CHAPTER 2 — EXPERIENCE -->
+	<section class="chapter" data-index="2" data-colors="2,141,234|113,53,114|141,204,246">
+	  <div class="chapter__overview">
+	  <div class="chapter__inner about-layout">
+	    <div class="about-text">
+	      <p class="chapter__tag">02 — Experience</p>
+	      <h2 class="chapter-heading" data-split>经历</h2>
+	      <div class="timeline">
+	        <div class="timeline__item">
+	          <div class="timeline__head"><h3 class="timeline__title">欢聚集团（Bigo）</h3><span class="timeline__role">抖音内容运营实习生</span></div>
+	          <div class="timeline__tags"><span class="timeline__tag">提示工程</span><span class="timeline__tag">模型训练</span><span class="timeline__tag">内容策略</span></div>
+	          <ul class="timeline__list">
+	            <li>使用 DeepSeek 辅助自媒体脚本文案创作，向模型投喂 100+ 条同赛道爆款文案作为训练样本，设计结构化提示词模板</li>
+	            <li>建立 AI 初稿 → 人工调整 → 数据验证 → 提示词迭代 标准化流程，累计优化 50+ 条文案，单条达标率从 30% 提升至 75%</li>
+	            <li>通过实时数据反馈迭代提示词，优化后单条平均播放突破 1 万+，产出 4 个爆款，单个视频最高 70 万+ 播放</li>
+	          </ul>
+	        </div>
+	        <div class="timeline__item">
+	          <div class="timeline__head"><h3 class="timeline__title">个人自媒体账号</h3><span class="timeline__role">从 0 到 1 独立运营</span><a href="https://v.douyin.com/lEW-c82YfKE/" target="_blank" style="font-size:1rem;color:var(--secondary);text-decoration:underline;text-underline-offset:0.3em;margin-left:0.5rem;">查看主页 ↗</a></div>
+	          <div class="timeline__tags"><span class="timeline__tag">账号孵化</span><span class="timeline__tag">内容策划</span><span class="timeline__tag">数据增长</span></div>
+	          <ul class="timeline__list">
+	            <li>独立从 0 到 1 搭建情感赛道自媒体账号，完成账号定位、内容体系规划与视觉设计</li>
+	            <li>累计涨粉 3000+，打造多个爆款笔记——两篇浏览量 160 万+、一篇 110 万+，最高单篇获赞 7.3 万</li>
+	          </ul>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="about-photo" style="margin-top:4rem;">
+	      <img src="37217874ba505d9e0a149801f22e4f3a.jpg" alt="经历" class="exp-img">
+	      <a class="cta visit-btn" href="#" style="margin-top:2rem;">
+	        <span>了解更多</span>
+	        <span class="cta__icon-wrap">
+	          <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+	          <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+	        </span>
+	      </a>
+	    </div>
+	  </div>
+	  </div>
+	  <div class="chapter__detail detail-content">
+	    <!-- BIGO CASE STUDY — 产品运营视角 -->
+	<div class="case-section">
+		      <div class="case-section__media" style="height:480px; overflow-x:auto; overflow-y:hidden; display:flex; flex-direction:row; gap:0.75rem; align-items:flex-start;">
+		        <img src="screenshots/5c36e4457f6d4324b28e852b53486ca5.jpg" alt="账号主页" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
+		        <img src="screenshots/07cf2d2a2a40ad2396e137dada1bbaac.jpg" alt="运营数据截图1" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
+		        <img src="screenshots/ed36a104aa715881381527afff40699a.jpg" alt="运营数据截图2" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
+		      </div>
+		      <div class="case-section__text">
+		        <h3>产品增长策略</h3>
+		        <p>围绕 Hello语音「恋爱社交」产品定位，独立运营抖音 / 快手 / 小红书账号，以 App 下载转化为核心增长目标。</p>
+		        <ul>
+		          <li>采用<strong>「情绪价值前置 + 产品场景后置」</strong>软植模式：在暧昧拉扯的情绪高点丝滑植入语音匹配 / 情侣连麦功能，缩短"情绪触发 → 下载行为"转化路径</li>
+		          <li>产出 <strong>35 条</strong>视频，打造 <strong>6 条爆款</strong>（最高播放 70w+），爆款率 <strong>17%</strong>，多平台（抖音 / 快手 / 小红书）均出爆款</li>
+		          <li>验证了软植模式跨平台可复制性，为 App 带来显著自然下载转化</li>
+		        </ul>
+		      </div>
+		    </div>
+
+		    <div class="process-steps">
+		      <p class="process-steps__title">用户洞察与选题体系</p>
+		      <div class="process-steps__row">
+		        <div class="process-step">
+		          <span class="process-step__num">01</span>
+		          <p class="process-step__title">竞品用户洞察</p>
+		          <p class="process-step__desc">深挖同赛道爆款评论区 + 抖音热榜，提炼「暧昧期不确定性」「异地恋痛点」等高共鸣选题标准，精准捕捉目标用户情感诉求</p>
+		        </div>
+		        <div class="process-step">
+		          <span class="process-step__num">02</span>
+		          <p class="process-step__title">选题矩阵搭建</p>
+		          <p class="process-step__desc">自建「情感阶段（暗恋 / 暧昧 / 热恋 / 失恋）」×「内容形式（解说 / 混剪 / 剧情）」交叉矩阵，确保选题系统化、可持续</p>
+		        </div>
+		        <div class="process-step">
+		          <span class="process-step__num">03</span>
+		          <p class="process-step__title">情绪-产品匹配模型</p>
+		          <p class="process-step__desc">将用户情绪高点与 Hello语音核心功能（语音匹配 / 情侣连麦）精准关联，确保每条内容的情绪路径指向产品使用场景</p>
+		        </div>
+		        <div class="process-step">
+		          <span class="process-step__num">04</span>
+		          <p class="process-step__title">审核 SOP 标准化</p>
+		          <p class="process-step__desc">提炼可复用审核 checklist：标题情绪钩子 → 前 3 秒冲击力 → 软植插入时机 → 结尾引导话术，标准化团队内容生产流程</p>
+		        </div>
+		      </div>
+		    </div>
+
+		    <div class="case-results">
+		      <span class="case-results__label">数据驱动</span>
+		      <p class="case-results__title">四维分析 + 归因迭代，爆款率 17%</p>
+		      <p>建立<strong>「播放量 → 完播率 → 互动率 → 转化率」</strong>四维分析模型，从抖音 / 快手 / 小红书创作者中心导出数据至 Excel 进行跨平台对比分析，以数据驱动内容迭代决策。</p>
+		      <ul>
+		        <li>发现 <strong>5 秒完播率偏低</strong> → 归因为开篇铺垫过长 → 改为「吵架名场面 + 大字标题」冲突前置 → 5 秒完播率提升至 <strong>70%</strong></li>
+		        <li>互动率低 → 优化结尾引导话术，强化"去 Hello 语音找人练练手"的行动号召，赞播比显著提升</li>
+		        <li>6 条爆款共性复盘：均为暧昧拉扯话题 + 情绪高点软植 + 黄金发布时间，形成可复用的<strong>爆款公式</strong></li>
+		      </ul>
+		    </div>
+
+		    <div class="process-steps">
+		      <p class="process-steps__title">AI 工具提效</p>
+		      <div class="process-steps__row">
+		        <div class="process-step">
+		          <span class="process-step__num">01</span>
+		          <p class="process-step__title">AI 辅助创作</p>
+		          <p class="process-step__desc">使用 DeepSeek、ChatGPT 辅助脚本生成与文案优化，单条视频制作周期压缩约 40%，释放更多精力投入选题与策略</p>
+		        </div>
+		        <div class="process-step">
+		          <span class="process-step__num">02</span>
+		          <p class="process-step__title">SOP 文档沉淀</p>
+		          <p class="process-step__desc">将选题判断标准、脚本结构模板、植入时机规则、审核 checklist 等经验系统化输出为可复用运营 SOP 文档</p>
+		        </div>
+		        <div class="process-step">
+		          <span class="process-step__num">03</span>
+		          <p class="process-step__title">自动化工作流</p>
+		          <p class="process-step__desc">建立「AI 初稿 → 人工精调 → 数据验证 → 提示词迭代」闭环，将个人经验转化为可复制的 AI 辅助内容生产系统</p>
+		        </div>
+		      </div>
+		    </div>
+
+
+<div class="case-divider"></div>
+
+		    <!-- 个人自媒体 CASE STUDY -->
+	    <div class="case-hero">
+	      <p class="case-hero__label">独立项目</p>
+	      <h2 class="case-hero__title">个人自媒体账号</h2>
+	      <p class="case-hero__sub">从 0 到 1 独立孵化情感赛道账号　<a href="https://v.douyin.com/lEW-c82YfKE/" target="_blank" style="color:var(--secondary);text-decoration:underline;text-underline-offset:0.3em;">查看抖音主页 ↗</a></p>
+	      <div class="case-hero__tags">
+	        <span class="case-hero__tag">账号孵化</span>
+	        <span class="case-hero__tag">内容策划</span>
+	        <span class="case-hero__tag">数据增长</span>
+	      </div>
+	    </div>
+
+	    <div class="metrics-strip">
+	      <div class="metrics-strip__item">
+	        <span class="metrics-strip__number">3000+</span>
+	        <span class="metrics-strip__label">累计涨粉</span>
+	      </div>
+	      <div class="metrics-strip__item">
+	        <span class="metrics-strip__number">160万+</span>
+	        <span class="metrics-strip__label">最高浏览</span>
+	      </div>
+	      <div class="metrics-strip__item">
+	        <span class="metrics-strip__number">7.3万</span>
+	        <span class="metrics-strip__label">最高获赞</span>
+	      </div>
+	    </div>
+
+	    <div class="case-section">
+	      <div class="case-section__media" style="height:420px; overflow-x:auto; overflow-y:hidden; display:flex; flex-direction:row; gap:0.75rem; align-items:flex-start;">
+		        <img src="screenshots/bba775a66ab12c754042bfe3d230a530.jpg" alt="自媒体截图1" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
+		        <img src="screenshots/21c667d3c357a070dd6c4182a4669fc1.png" alt="自媒体截图2" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
+		        <img src="screenshots/419616fffcd9901d772e58a8a7e53a93.jpg" alt="自媒体截图3" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
+		      </div>
+	      <div class="case-section__text">
+	        <h3>我的角色</h3>
+	        <p>独立完成账号定位、内容体系搭建、视觉设计和日常运营。核心挑战：在零预算下从 0 到 1 冷启动一个情感赛道账号。</p>
+	        <ul>
+	          <li>选定情感赛道，明确目标受众和内容差异化方向</li>
+	          <li>规划内容体系，建立选题库和发布节奏</li>
+	          <li>设计统一视觉风格，提升账号辨识度</li>
+	        </ul>
+	      </div>
+	    </div>
+
+	    <div class="process-steps">
+	      <p class="process-steps__title">从 0 到 1 路径</p>
+	      <div class="process-steps__row">
+	        <div class="process-step">
+	          <span class="process-step__num">01</span>
+	          <p class="process-step__title">账号定位</p>
+	          <p class="process-step__desc">分析情感赛道竞品，确定差异化角度和核心人设</p>
+	        </div>
+	        <div class="process-step">
+	          <span class="process-step__num">02</span>
+	          <p class="process-step__title">内容体系</p>
+	          <p class="process-step__desc">建立选题库 + 文案模板 + 视觉规范，形成可复用的内容框架</p>
+	        </div>
+	        <div class="process-step">
+	          <span class="process-step__num">03</span>
+	          <p class="process-step__title">持续运营</p>
+	          <p class="process-step__desc">根据数据反馈调整内容方向，优化发布时间和互动策略</p>
+	        </div>
+	        <div class="process-step">
+	          <span class="process-step__num">04</span>
+	          <p class="process-step__title">数据增长</p>
+	          <p class="process-step__desc">打造多个爆款笔记，两篇浏览 160 万+，单篇最高获赞 7.3 万</p>
+	        </div>
+	      </div>
+	    </div>
+
+	    <div class="case-results">
+	      <span class="case-results__label">成果</span>
+	      <p class="case-results__title">独立孵化，数据驱动增长</p>
+	      <p>从冷启动到打造爆款的完整经验，验证了在低成本下通过内容策略实现数据增长的能力。这些经验也为我理解 AI 内容工具的产品需求提供了第一手视角。</p>
+	      <ul>
+	        <li>3 个爆款笔记，两篇浏览量突破 160 万+</li>
+	        <li>最高单篇获赞 7.3 万，验证内容策略有效性</li>
+	        <li>积累了从选题 → 创作 → 发布 → 优化的完整闭环经验</li>
+	      </ul>
+	    </div>
+	  
+	  </div>
+	</section>
+
+	<!-- CHAPTER 3 — WORK -->
+<section class="chapter" data-index="3" data-colors="236,183,150|0,50,71|244,215,197">
+  <div class="chapter__overview">
+  <div class="chapter__inner">
+    <p class="chapter__tag">03 — Work</p>
+    <h2 class="chapter-heading" data-split>作品集</h2>
+    <p class="chapter__meta" style="margin-top:1.5rem;">AI 驱动的智能工具，探索技术与实用性的交汇点</p>
+    <a class="cta visit-btn" href="#" style="margin-top:3rem;">
+      <span>了解更多</span>
+      <span class="cta__icon-wrap">
+        <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+        <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+      </span>
+    </a>
+  </div>
+  </div>
+  <div class="chapter__detail detail-content">
+    <!-- AI RESUME ASSISTANT CASE STUDY -->
+    <div class="case-hero">
+      <p class="case-hero__label">AI 项目</p>
+      <h2 class="case-hero__title">AI 简历助手</h2>
+      <p class="case-hero__sub">基于 RAG 的智能简历优化工具 — 从使用者到构建者的第一步</p>
+      <div class="case-hero__tags">
+        <span class="case-hero__tag">RAG</span>
+        <span class="case-hero__tag">Python</span>
+        <span class="case-hero__tag">LLM</span>
+        <span class="case-hero__tag">AI Agent</span>
+      </div>
+    </div>
+
+    <div class="metrics-strip">
+      <div class="metrics-strip__item">
+        <span class="metrics-strip__number">—</span>
+        <span class="metrics-strip__label">状态：开发中</span>
+      </div>
+      <div class="metrics-strip__item">
+        <span class="metrics-strip__number">RAG</span>
+        <span class="metrics-strip__label">核心技术</span>
+      </div>
+      <div class="metrics-strip__item">
+        <span class="metrics-strip__number">JD</span>
+        <span class="metrics-strip__label">匹配引擎</span>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <div class="case-section__media">
+        <div class="case-section__media-placeholder">应用界面截图 / 使用流程</div>
+      </div>
+      <div class="case-section__text">
+        <h3>项目背景</h3>
+        <p>作为求职者，我发现每次投递都需要根据目标岗位定制简历，手动比对 JD 和简历耗时且容易遗漏关键点。于是决定用 AI 自动化这个流程。</p>
+        <ul>
+          <li>上传简历后，AI 自动解析关键信息（教育、技能、经历）</li>
+          <li>输入目标岗位 JD，AI 进行语义匹配分析</li>
+          <li>输出针对性优化建议，突出匹配度高的部分</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="process-steps">
+      <p class="process-steps__title">技术流程</p>
+      <div class="process-steps__row">
+        <div class="process-step">
+          <span class="process-step__num">01</span>
+          <p class="process-step__title">简历解析</p>
+          <p class="process-step__desc">PDF/Word 简历上传后，提取结构化信息（教育、技能、工作经历）</p>
+        </div>
+        <div class="process-step">
+          <span class="process-step__num">02</span>
+          <p class="process-step__title">JD 语义分析</p>
+          <p class="process-step__desc">解析岗位 JD，提取关键要求和加分项，构建能力模型</p>
+        </div>
+        <div class="process-step">
+          <span class="process-step__num">03</span>
+          <p class="process-step__title">RAG 检索增强</p>
+          <p class="process-step__desc">基于向量数据库检索相关行业知识，补充优化建议的上下文</p>
+        </div>
+        <div class="process-step">
+          <span class="process-step__num">04</span>
+          <p class="process-step__title">优化建议生成</p>
+          <p class="process-step__desc">LLM 对比简历与 JD 差距，生成分点优化建议 + 修改示例</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-results">
+      <span class="case-results__label">项目收获</span>
+      <p class="case-results__title">从 0 到 1 构建 AI 应用的完整经验</p>
+      <p>这个项目是我转行 AI 的第一步实战练习。通过亲手搭建 RAG 系统，我理解了向量数据库、Prompt 工程和 LLM 应用架构的核心概念。更重要的是，这是我作为「AI 产品经理」视角的起点——从自己的真实需求出发，用 AI 解决问题。</p>
+      <ul>
+        <li>理解 RAG 架构原理（Embedding → 检索 → 增强生成）</li>
+        <li>掌握 Prompt Engineering 在产品场景中的实际应用</li>
+        <li>体验从需求 → 设计 → 开发的完整产品流程</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!-- CHAPTER 4 — CONTACT -->
+<section class="chapter" data-index="4" data-colors="208,180,72|195,129,113|237,218,213">
+  <div class="chapter__inner">
+    <p class="chapter__tag">04 — Contact</p>
+    <h2 class="chapter-heading" data-split>联系我</h2>
+    <div class="contact-info">
+      <p class="contact-info__item"><span class="contact-info__label">微信</span><span class="c-primary">zdqnb2024</span></p>
+      <p class="contact-info__item"><span class="contact-info__label">邮箱</span><span class="c-primary">17750132335@163.com</span></p>
+      <p class="contact-info__item"><span class="contact-info__label">电话</span><span class="c-primary">17750132335</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- BACK BUTTON (visible in detail mode) -->
+<button class="back-btn" id="backBtn" aria-label="Back to overview">
+  <svg viewBox="0 0 30 17" fill="none"><path d="M8.5 16.6L1.4 8.3L7.8 0.7"/><path d="M1.4 8.3H30"/></svg>
+  <span>Back</span>
+</button>
+
+
+<div class="progress-wrap">
+  <svg class="progress-svg" viewBox="0 0 280 280" width="280" height="280">
+    <circle class="progress-svg__bg" cx="140" cy="140" r="139.5"/>
+    <circle class="progress-svg__fill" id="progressFill" cx="140" cy="140" r="139.5"/>
+  </svg>
+  <div class="progress__num-wrap">
+    <span class="progress__num" id="progressNum">1</span>
+  </div>
+  <button class="progress__arrow progress__arrow--prev" id="arrowPrev" aria-label="Previous chapter">
+    <svg viewBox="0 0 30 17" fill="none"><path d="M8.5 16.6L1.4 8.3L7.8 0.7"/><path d="M1.4 8.3H30"/></svg>
+    <svg viewBox="0 0 30 17" fill="none" class="clone"><path d="M8.5 16.6L1.4 8.3L7.8 0.7"/><path d="M1.4 8.3H30"/></svg>
+  </button>
+  <button class="progress__arrow progress__arrow--next" id="arrowNext" aria-label="Next chapter">
+    <svg viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+    <svg viewBox="0 0 30 17" fill="none" class="clone"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+  </button>
+  <span class="progress__label">Project</span>
+</div>
+<div class="progress-desc" id="progressDesc">AI Native / 内容创作 / 快速学习</div>
+<div class="chapter-preview" id="chapterPreview">
+  <img class="chapter-preview__img" id="chapterPreviewImg" src="" alt="Preview">
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const TOTAL = 5;
+  const CIRC = 2 * Math.PI * 139.5;
+  const DEBOUNCE = 800;
+  let current = 0, wheelBlocked = false, animating = false;
+
+  const chapters = document.querySelectorAll('.chapter');
+  const navLinks = document.querySelectorAll('.nav__link');
+  const progressFill = document.getElementById('progressFill');
+  const progressNum = document.getElementById('progressNum');
+  const progressDesc = document.getElementById('progressDesc');
+  const scrollIndicator = document.getElementById('scrollIndicator');
+  // Map chapters 0-4 to images
+  var chapterPreviewImg = document.getElementById('chapterPreviewImg');
+  var chapterImages = [
+    '0b4dc3b42a5221330421131252cf905b.jpg',
+    '171a3f7f1d5fa28c415b7f3092992605.jpg',
+    '26056aed2da8f48deec405dbb589b3af.jpg',
+    'e12c26914750039099475fb2e6056f10.jpg',
+    'e6584e035788321f2d5a9bb1e6f6ea2b.jpg'
+  ];
+  /* ──── CANVAS SOFT GLOW BACKGROUND ──── */
+  var canvas = document.getElementById('bgCanvas');
+  var ctx = canvas.getContext('2d');
+  var cw, ch;
+
+  function resize() {
+    cw = window.innerWidth; ch = window.innerHeight;
+    canvas.width = cw; canvas.height = ch;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // 3-color palette: c1=peach, c2=rose, c3=pink
+  var curC = [[255,150,85],[185,60,100],[223,151,173]];
+  var tgtC = [[255,150,85],[185,60,100],[223,151,173]];
+
+  // 8 glow spots: each has [baseX%, baseY%, colorIdx, size%, phase]
+  var spots = [
+    [15, 20, 1, 55, 0.0], [60, 15, 2, 45, 1.2], [35, 55, 1, 60, 2.4],
+    [75, 45, 0, 50, 3.6], [20, 70, 2, 40, 4.8], [55, 75, 1, 55, 0.6],
+    [80, 20, 2, 48, 1.8], [45, 35, 0, 42, 3.0]
+  ];
+
+  var time = 0, mx = 0.5, my = 0.5;
+
+  function lerpColor() {
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j < 3; j++) {
+        curC[i][j] += (tgtC[i][j] - curC[i][j]) * 0.08;
+      }
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, cw, ch);
+    // Base background
+    var isDark = document.documentElement.classList.contains('dark');
+    ctx.fillStyle = isDark ? 'rgb(38,38,38)' : 'rgb(231,228,223)';
+    ctx.fillRect(0, 0, cw, ch);
+
+    lerpColor();
+
+    for (var i = 0; i < spots.length; i++) {
+      var s = spots[i];
+      var bx = s[0] + Math.sin(time * 0.4 + s[4]) * 10;
+      var by = s[1] + Math.cos(time * 0.35 + s[4]) * 8;
+      // Stronger mouse pull
+      var dx = mx * 100 - bx, dy = my * 100 - by;
+      var dist = Math.sqrt(dx * dx + dy * dy) / 100;
+      if (dist < 0.5) { bx += dx * (1 - dist / 0.5) * 0.5; by += dy * (1 - dist / 0.5) * 0.5; }
+
+      var px = bx / 100 * cw, py = by / 100 * ch;
+      var radius = s[3] / 100 * Math.max(cw, ch) * 0.7;
+      var ci = s[2];
+      var cr = Math.round(curC[ci][0]), cg = Math.round(curC[ci][1]), cb = Math.round(curC[ci][2]);
+
+      var grad = ctx.createRadialGradient(px, py, 0, px, py, radius);
+      grad.addColorStop(0, 'rgba(' + cr + ',' + cg + ',' + cb + ',0.55)');
+      grad.addColorStop(0.4, 'rgba(' + cr + ',' + cg + ',' + cb + ',0.3)');
+      grad.addColorStop(0.7, 'rgba(' + cr + ',' + cg + ',' + cb + ',0.08)');
+      grad.addColorStop(1, 'rgba(' + cr + ',' + cg + ',' + cb + ',0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(px - radius, py - radius, radius * 2, radius * 2);
+    }
+
+    time += 0.005;
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  /* ──── CHAPTER SWITCH ──── */
+  function splitAndAnimate(el) {
+    if (el.classList.contains('split-done')) return;
+    el.classList.add('split-done');
+    const text = el.textContent.trim();
+    el.textContent = '';
+    const chars = [];
+    for (let i = 0; i < text.length; i++) {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = text[i];
+      span.style.clipPath = 'inset(0% 100% 120% -5%)';
+      span.style.transform = 'translateX(-20px)';
+      el.appendChild(span);
+      chars.push(span);
+    }
+    gsap.to(chars, {
+      clipPath: 'inset(0% -100% -100% -5%)',
+      x: 0,
+      duration: 0.55,
+      stagger: -0.04,
+      ease: 'power3.out',
+      transformOrigin: '0% 50%',
+      delay: 0.25
+    });
+  }
+
+  function goTo(idx, dir) {
+    if (idx < 0 || idx >= TOTAL || idx === current || animating) return;
+    animating = true;
+    const prev = current;
+    current = idx;
+
+    const nc = chapters[current], oc = chapters[prev];
+    const colors = (nc.dataset.colors || '').split('|');
+    if (colors.length === 3) {
+      const c1 = colors[0].split(',').map(Number), c2 = colors[1].split(',').map(Number), c3 = colors[2].split(',').map(Number);
+      tgtC = [c1, c2, c3];
+      document.documentElement.style.setProperty('--cp1', 'rgb('+colors[0]+')');
+      document.documentElement.style.setProperty('--cp2', 'rgb('+colors[1]+')');
+      document.documentElement.style.setProperty('--cp3', 'rgb('+colors[2]+')');
+    }
+
+    gsap.to(oc, { opacity: 0, duration: 0.35, ease: 'power2.out', onComplete: function() { oc.classList.remove('active'); }});
+    nc.classList.add('active');
+    gsap.fromTo(nc, { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'power2.in', delay: 0.12 });
+
+    nc.querySelectorAll('[data-split]').forEach(function(h) { splitAndAnimate(h); });
+
+    navLinks.forEach(function(l) { l.classList.remove('active'); });
+    if (current < navLinks.length) navLinks[current].classList.add('active');
+
+    const pct = (current + 1) / TOTAL;
+    gsap.to(progressFill, { attr: { 'stroke-dashoffset': CIRC * (1 - pct) }, duration: 0.8, ease: 'power2.inOut' });
+    progressNum.textContent = (current + 1) + '/' + TOTAL;
+
+    if (current === 0) { scrollIndicator.classList.add('visible'); }
+    else { scrollIndicator.classList.remove('visible'); }
+
+    progressDesc.textContent = ['AI Native / 内容创作', 'Skill', 'Experience', 'Portfolio', 'Contact'][current] || '';
+    // Update chapter-preview image (bottom-right circle)
+    if (chapterPreviewImg && chapterImages[current]) {
+      chapterPreviewImg.src = chapterImages[current];
+    }
+
+    setTimeout(function() { animating = false; }, 450);
+  }
+
+  /* ──── WHEEL ──── */
+  window.addEventListener('wheel', function(e) {
+    if (detailChapter) return;
+    if (wheelBlocked || animating) return;
+    wheelBlocked = true;
+    setTimeout(function() { wheelBlocked = false; }, DEBOUNCE);
+    if (Math.abs(e.deltaY) < 10) return;
+    e.preventDefault();
+    goTo(e.deltaY > 0 ? current + 1 : current - 1);
+  }, { passive: false });
+
+  /* ──── ARROWS ──── */
+  document.getElementById('arrowPrev').addEventListener('click', function() { if (!detailChapter) goTo(current - 1); });
+  document.getElementById('arrowNext').addEventListener('click', function() { if (!detailChapter) goTo(current + 1); });
+
+  /* ──── NAV ──── */
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function() { goTo(parseInt(link.dataset.chapter)); });
+  });
+
+  /* ──── KEYBOARD ──── */
+  document.addEventListener('keydown', function(e) {
+    if (detailChapter) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+  });
+
+  /* ──── TOUCH ──── */
+  let tsx = 0, tsy = 0;
+  document.addEventListener('touchstart', function(e) { tsx = e.touches[0].clientX; tsy = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    const dx = e.changedTouches[0].clientX - tsx, dy = e.changedTouches[0].clientY - tsy;
+    if (Math.abs(dx) < 40 && Math.abs(dy) < 40) return;
+    if (Math.abs(dx) > Math.abs(dy)) goTo(dx < 0 ? current + 1 : current - 1);
+    else goTo(dy < 0 ? current + 1 : current - 1);
+  });
+
+  // Mouse pos for Canvas background pull
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX / window.innerWidth; my = e.clientY / window.innerHeight;
+  });
+
+  /* ──── THEME ──── */
+  document.getElementById('themeToggle').addEventListener('click', function() { document.documentElement.classList.toggle('dark'); });
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
+
+  /* ──── HERO CTA CLICKS ──── */
+  document.querySelectorAll('.hero-ctas .cta[data-goto]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) { e.preventDefault(); goTo(parseInt(btn.dataset.goto)); });
+  });
+
+  /* ──── DETAIL MODE — chapter transforms to scrollable detail page ──── */
+  var backBtn = document.getElementById('backBtn');
+  var detailChapter = null;
+
+  function enterDetail(chapterIdx) {
+    if (detailChapter) return;
+    detailChapter = chapters[chapterIdx];
+    detailChapter.classList.add('detail-mode');
+    document.body.classList.add('detail-active');
+    backBtn.classList.add('visible');
+    // Hide overview preview, set detail-next img to next chapter
+    document.getElementById('chapterPreview').style.display = 'none';
+    var nextIdx = (chapterIdx + 1) % TOTAL;
+    var detailNextImg = document.querySelector('.detail-next__img');
+    if (detailNextImg && chapterImages[nextIdx]) {
+      detailNextImg.src = chapterImages[nextIdx];
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function exitDetail() {
+    if (!detailChapter) return;
+    detailChapter.classList.remove('detail-mode');
+    document.body.classList.remove('detail-active');
+    backBtn.classList.remove('visible');
+    detailChapter = null;
+    // Show overview preview again
+    document.getElementById('chapterPreview').style.display = '';
+    if (chapterPreviewImg && chapterImages[current]) {
+      chapterPreviewImg.src = chapterImages[current];
+    }
+    window.scrollTo(0, 0);
+  }
+
+  backBtn.addEventListener('click', exitDetail);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && detailChapter) exitDetail(); });
+
+  // Wire Visit buttons
+  document.querySelectorAll('.visit-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var chapterEl = btn.closest('.chapter');
+      if (chapterEl) enterDetail(parseInt(chapterEl.dataset.index));
+    });
+  });
+
+
+  /* ──── DETAIL: Scroll-reveal gallery items (Intersection Observer) ──── */
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  /* ──── DETAIL: Scroll progress tracking ──── */
+  var detailProgressFill = document.getElementById('detailProgressFill');
+  var detailProgressNum = document.getElementById('detailProgressNum');
+  function updateDetailProgress() {
+    if (!detailChapter) return;
+    var gallery = detailChapter.querySelector('.detail-gallery-wrap');
+    if (!gallery) return;
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var galleryTop = gallery.getBoundingClientRect().top + scrollTop;
+    var galleryHeight = gallery.offsetHeight;
+    var windowHeight = window.innerHeight;
+    var scrollableDist = galleryHeight - windowHeight;
+    if (scrollableDist <= 0) { detailProgressNum.textContent = '100%'; return; }
+    var scrolled = scrollTop - galleryTop;
+    var pct = Math.max(0, Math.min(100, Math.round((scrolled / scrollableDist) * 100)));
+    detailProgressNum.textContent = pct + '%';
+    if (detailProgressFill) {
+      detailProgressFill.setAttribute('stroke-dashoffset', 880 * (1 - pct / 100));
+    }
+  }
+  window.addEventListener('scroll', function() { updateDetailProgress(); }, { passive: true });
+
+  /* ──── DETAIL: Init scroll reveal on enter, clean on exit ──── */
+  var origEnterDetail = enterDetail;
+  enterDetail = function(chapterIdx) {
+    origEnterDetail(chapterIdx);
+    // Init scroll reveal observers after a short delay (DOM ready)
+    setTimeout(function() {
+      var items = document.querySelectorAll('.detail-gallery__item[data-reveal]');
+      items.forEach(function(item, i) { item.style.transitionDelay = (i * 0.1) + 's'; revealObserver.observe(item); });
+      updateDetailProgress();
+    }, 200);
+  };
+  var origExitDetail = exitDetail;
+  exitDetail = function() {
+    // Unobserve all items
+    document.querySelectorAll('.detail-gallery__item[data-reveal]').forEach(function(item) {
+      item.classList.remove('revealed'); revealObserver.unobserve(item);
+    });
+    origExitDetail();
+  };
+
+  /* ──── DETAIL: Next preview click → go to Ch3 ──── */
+  document.getElementById('detailNext').addEventListener('click', function() {
+    if (detailChapter) {
+      var nextIdx = (current + 1) % TOTAL;
+      exitDetail(); setTimeout(function() { goTo(nextIdx); }, 400);
+    }
+  });
+
+  /* ──── SKILL CARDS: Canvas dynamic gradient animation ──── */
+  var skillCardAnims = [];
+  var skillCardRaf = null;
+  var cardPalettes = {
+    ai:     ['rgb(155,155,155)','rgb(36,52,78)','rgb(137,145,159)','rgb(180,180,180)','rgb(60,80,110)'],
+    content:['rgb(36,52,78)','rgb(137,145,159)','rgb(155,155,155)','rgb(80,100,130)','rgb(190,195,200)'],
+    office: ['rgb(137,145,159)','rgb(155,155,155)','rgb(36,52,78)','rgb(160,170,180)','rgb(50,70,95)']
+  };
+
+  function initSkillCards() {
+    // Stop previous animation if any
+    if (skillCardRaf) { cancelAnimationFrame(skillCardRaf); skillCardRaf = null; }
+    skillCardAnims = [];
+    var canvases = document.querySelectorAll('.skill-card__canvas');
+    canvases.forEach(function(canvas) {
+      var skill = canvas.dataset.skill;
+      var parent = canvas.parentElement;
+      // Resize canvas to match parent
+      var w = parent.offsetWidth, h = parent.offsetHeight;
+      canvas.width = w; canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      // Build palette DOM
+      var paletteEl = parent.querySelector('.skill-card__palette');
+      if (paletteEl) {
+        paletteEl.innerHTML = '';
+        var colors = cardPalettes[skill] || cardPalettes.ai;
+        colors.forEach(function(c) { paletteEl.innerHTML += '<span style=\"background:'+c+'\"></span>'; });
+      }
+      // Glow spots for this canvas
+      var spots = [
+        { x: 0.2, y: 0.3, r: 0.45, c: colors[0], phase: 0 },
+        { x: 0.7, y: 0.2, r: 0.4, c: colors[1], phase: 1.5 },
+        { x: 0.5, y: 0.6, r: 0.5, c: colors[2], phase: 3.0 },
+        { x: 0.3, y: 0.75, r: 0.35, c: colors[3], phase: 4.5 }
+      ];
+      skillCardAnims.push({ canvas: canvas, ctx: ctx, w: w, h: h, spots: spots, time: Math.random() * 10 });
+    });
+    // Start animation loop
+    function animate() {
+      skillCardRaf = requestAnimationFrame(animate);
+      skillCardAnims.forEach(function(card) {
+        card.ctx.clearRect(0, 0, card.w, card.h);
+        card.time += 0.008;
+        card.spots.forEach(function(s) {
+          var cx = card.w * (s.x + Math.sin(card.time + s.phase) * 0.08);
+          var cy = card.h * (s.y + Math.cos(card.time + s.phase) * 0.08);
+          var r = Math.max(card.w, card.h) * s.r;
+          var grad = card.ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+          grad.addColorStop(0, s.c.replace(')', ',0.45)').replace('rgb', 'rgba'));
+          grad.addColorStop(0.6, s.c.replace(')', ',0.08)').replace('rgb', 'rgba'));
+          grad.addColorStop(1, 'transparent');
+          card.ctx.fillStyle = grad;
+          card.ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+        });
+      });
+    }
+    animate();
+  }
+
+  // Init skill cards when entering Ch1 detail
+  var origEnterDetail2 = enterDetail;
+  enterDetail = function(chapterIdx) {
+    origEnterDetail2(chapterIdx);
+    if (chapterIdx === 1) {
+      setTimeout(function() { initSkillCards(); }, 300);
+    }
+  };
+
+  /* ──── INIT ──── */
+  goTo(0, 0);
+  // Set initial chapter-preview image
+  if (chapterPreviewImg && chapterImages[0]) {
+    chapterPreviewImg.src = chapterImages[0];
+  }
+})();
+</script>
+<!-- Root-level detail elements (fixed to viewport, shown only in detail mode) -->
+<div class="detail-next" id="detailNext" title="下一章节">
+  <div class="detail-next__inner">
+    <div class="detail-next__top"><span class="detail-next__label">N. 03</span><span class="detail-next__dot"></span></div>
+    <div class="detail-next__bottom"><span class="detail-next__dot"></span><span class="detail-next__year">作品集</span></div>
+  </div>
+  <img src="e12c26914750039099475fb2e6056f10.jpg" alt="Next" class="detail-next__img">
+</div>
+</body>
+</html>
