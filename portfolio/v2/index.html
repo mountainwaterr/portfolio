@@ -456,6 +456,85 @@ body.detail-active .detail-next {
 /* Case divider */
 .case-divider { width: 100%; height: 1px; background: var(--border); margin: 4rem 0; transition: background 0.3s var(--ease-color); }
 @media (min-width: 1024px) { .case-divider { margin: 6rem 0; } }
+
+/* ═══════════════════════════════════
+   Ch3 作品集 — 产品展示型封面 + 详情增强
+   ═══════════════════════════════════ */
+
+/* 产品展示卡 (封面) */
+.product-showcase { display: flex; gap: 3rem; margin-top: 4rem; max-width: 72rem; margin-left: auto; margin-right: auto; align-items: center; }
+@media (max-width: 1023px) { .product-showcase { flex-direction: column; gap: 2rem; margin-top: 3rem; } }
+.product-showcase__media { flex: 0 0 48%; border-radius: 1.5rem; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16/10; background: var(--circle-bg); position: relative; transition: border-color 0.3s var(--ease-color), background 0.3s var(--ease-color); }
+.product-showcase__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.product-showcase__media-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem; }
+.product-showcase__media-placeholder span { font-size: 2.4rem; }
+.product-showcase__media-placeholder p { font-size: 1.2rem; color: var(--muted); letter-spacing: 0.04em; }
+.product-showcase__info { flex: 1; text-align: left; min-width: 0; }
+.product-showcase__name { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: clamp(2rem,3.5vw,2.8rem); font-weight: 500; font-style: italic; color: var(--primary); letter-spacing: -0.04em; line-height: 1.1; transition: color 0.3s var(--ease-color); }
+.product-showcase__tagline { font-size: 1.2rem; color: var(--muted); margin-top: 0.3rem; letter-spacing: 0.02em; }
+@media (min-width: 1024px) { .product-showcase__tagline { font-size: 1.4rem; } }
+.product-showcase__features { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+.product-showcase__feature { font-size: 1rem; font-weight: 500; padding: 0.3rem 0.8rem; border: 1px solid var(--border); border-radius: 0.8rem; color: var(--secondary); letter-spacing: 0.03em; transition: color 0.3s var(--ease-color), border-color 0.3s var(--ease-color); }
+.product-showcase__desc { font-size: 1.15rem; color: var(--secondary); line-height: 1.7; margin-top: 1.5rem; letter-spacing: -0.01em; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .product-showcase__desc { font-size: 1.25rem; } }
+/* 次级项目引用 */
+.secondary-project { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); max-width: 72rem; margin-left: auto; margin-right: auto; text-align: center; transition: border-color 0.3s var(--ease-color); }
+.secondary-project__label { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+.secondary-project__name { font-size: 1.3rem; font-weight: 500; color: var(--primary); font-style: italic; letter-spacing: -0.02em; transition: color 0.3s var(--ease-color); }
+.secondary-project__desc { font-size: 1.05rem; color: var(--secondary); line-height: 1.6; margin-top: 0.3rem; max-width: 40rem; margin-left: auto; margin-right: auto; transition: color 0.3s var(--ease-color); }
+
+/* 截图画廊 (详情页) — 纯截图卡：大图为主 + 底部标签 */
+.screenshot-gallery { display: flex; gap: 1.5rem; margin-bottom: 4rem; }
+@media (max-width: 1023px) { .screenshot-gallery { flex-direction: row; overflow-x: auto; gap: 1rem; padding-bottom: 1rem; -webkit-overflow-scrolling: touch; } }
+@media (min-width: 1024px) { .screenshot-gallery { gap: 2rem; margin-bottom: 6rem; } }
+.screenshot-gallery__item { flex: 1; min-width: 0; border-radius: 1.5rem; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 4/3; background: var(--circle-bg); display: flex; flex-direction: column; transition: border-color 0.3s var(--ease-color), background 0.3s var(--ease-color); cursor: default; }
+@media (max-width: 1023px) { .screenshot-gallery__item { flex: 0 0 16rem; aspect-ratio: 3/4; } }
+.screenshot-gallery__media { flex: 1; display: flex; align-items: center; justify-content: center; background: var(--circle-bg); overflow: hidden; position: relative; transition: background 0.3s var(--ease-color); }
+.screenshot-gallery__media img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
+.screenshot-gallery__media-placeholder { font-size: 2.8rem; color: var(--muted); opacity: 0.4; transition: color 0.3s var(--ease-color); }
+.screenshot-gallery__label { font-size: 1rem; font-weight: 500; color: var(--primary); text-align: center; padding: 0.65rem 1rem; border-top: 1px solid var(--border); letter-spacing: -0.02em; background: var(--bg); transition: color 0.3s var(--ease-color), border-color 0.3s var(--ease-color), background 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .screenshot-gallery__label { font-size: 1.15rem; padding: 0.75rem 1rem; } }
+
+/* AI 协作卡片 */
+.collab-section { margin-bottom: 4rem; }
+@media (min-width: 1024px) { .collab-section { margin-bottom: 6rem; } }
+.collab-section__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .collab-section__title { font-size: 1.2rem; margin-bottom: 3rem; } }
+.collab-cards { display: flex; gap: 2rem; }
+@media (max-width: 1023px) { .collab-cards { flex-direction: column; gap: 1.5rem; } }
+.collab-card { flex: 1; border: 1px solid var(--border); border-radius: 1.5rem; padding: 2rem; transition: border-color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .collab-card { padding: 2.5rem; } }
+.collab-card__emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+.collab-card__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.3rem; font-weight: 600; color: var(--primary); letter-spacing: -0.02em; margin-bottom: 1rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .collab-card__title { font-size: 1.5rem; } }
+.collab-card__list { list-style: none; padding: 0; }
+.collab-card__list li { font-size: 1.15rem; color: var(--secondary); line-height: 1.8; padding-left: 1.2rem; position: relative; margin-bottom: 0.4rem; letter-spacing: -0.01em; transition: color 0.3s var(--ease-color); }
+.collab-card__list li::before { content: '→'; position: absolute; left: 0; color: var(--muted); font-size: 0.9rem; }
+.collab-card__note { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 1.05rem; color: var(--muted); font-style: italic; line-height: 1.6; letter-spacing: 0.01em; transition: border-color 0.3s var(--ease-color), color 0.3s var(--ease-color); }
+
+/* 产品流程条 */
+.product-flow { margin-bottom: 4rem; }
+@media (min-width: 1024px) { .product-flow { margin-bottom: 6rem; } }
+.product-flow__title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.4rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .product-flow__title { font-size: 1.2rem; margin-bottom: 3rem; } }
+.product-flow__row { display: flex; gap: 0; align-items: flex-start; }
+@media (max-width: 1023px) { .product-flow__row { flex-direction: column; gap: 0.8rem; } }
+.product-flow__step { flex: 1; text-align: center; padding: 1.5rem 1rem; border: 1px solid var(--border); border-radius: 1rem; position: relative; transition: border-color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .product-flow__step { padding: 2rem 1rem; } }
+@media (min-width: 1024px) {
+  .product-flow__step + .product-flow__step { margin-left: -1px; }
+  .product-flow__step { border-radius: 0; }
+  .product-flow__step:first-child { border-radius: 1rem 0 0 1rem; }
+  .product-flow__step:last-child { border-radius: 0 1rem 1rem 0; }
+  .product-flow__step::after { content: '→'; position: absolute; right: -0.9rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1.1rem; z-index: 2; }
+  .product-flow__step:last-child::after { display: none; }
+}
+@media (max-width: 1023px) { .product-flow__step { border-radius: 1rem; margin-left: 0; } }
+.product-flow__step-num { font-size: 0.9rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.3s var(--ease-color); }
+.product-flow__step-title { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.15rem; font-weight: 600; color: var(--primary); letter-spacing: -0.02em; margin: 0.5rem 0 0.3rem; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .product-flow__step-title { font-size: 1.25rem; } }
+.product-flow__step-desc { font-size: 0.95rem; color: var(--secondary); line-height: 1.5; letter-spacing: -0.01em; transition: color 0.3s var(--ease-color); }
+@media (min-width: 1024px) { .product-flow__step-desc { font-size: 1.05rem; } }
 </style>
 </head>
 <body>
@@ -845,96 +924,261 @@ body.detail-active .detail-next {
   <div class="chapter__inner">
     <p class="chapter__tag">03 — Work</p>
     <h2 class="chapter-heading" data-split>作品集</h2>
-    <p class="chapter__meta" style="margin-top:1.5rem;">AI 驱动的智能工具，探索技术与实用性的交汇点</p>
-    <a class="cta visit-btn" href="#" style="margin-top:3rem;">
-      <span>了解更多</span>
-      <span class="cta__icon-wrap">
-        <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
-        <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
-      </span>
-    </a>
+        <!-- 产品展示型封面 -->
+    <div class="product-showcase">
+      <div class="product-showcase__media">
+        <div class="product-showcase__media-placeholder">
+          <span>🖥️</span>
+          <p>Resume Matcher 产品截图</p>
+        </div>
+      </div>
+      <div class="product-showcase__info">
+        <p class="product-showcase__name">Resume Matcher</p>
+        <p class="product-showcase__tagline">AI 简历优化 SaaS — 从真实求职痛点出发</p>
+        <div class="product-showcase__features">
+          <span class="product-showcase__feature">6维度智能评分</span>
+          <span class="product-showcase__feature">AI 逐条建议</span>
+          <span class="product-showcase__feature">一键导出 PDF</span>
+          <span class="product-showcase__feature">JD 岗位分析</span>
+          <span class="product-showcase__feature">GitHub 项目推荐</span>
+        </div>
+        <p class="product-showcase__desc">代码 <strong>100% 由 Claude Code</strong> 生成，从 PRD 文档到 127 个自动化测试，完整产品从 0 到 1。我的角色是产品经理：定义需求、做决策、验证结果。</p>
+        <a class="cta visit-btn" href="https://github.com/mountainwaterr/JD-Resume-Match" target="_blank" style="margin-top:2rem;">
+          <span>查看完整案例</span>
+          <span class="cta__icon-wrap">
+            <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+            <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 次级：个人网站 -->
+    <div class="secondary-project">
+      <p class="secondary-project__label">也看看</p>
+      <p class="secondary-project__name">个人网站作品集</p>
+      <p class="secondary-project__desc">你现在看到的这个网站 — federicopian.com 设计风格，响应式 + Canvas 动画 + 暗色模式，全程 Claude Code 协作</p>
+    </div>
   </div>
   </div>
   <div class="chapter__detail detail-content">
     <!-- AI RESUME ASSISTANT CASE STUDY -->
     <div class="case-hero">
-      <p class="case-hero__label">AI 项目</p>
-      <h2 class="case-hero__title">AI 简历助手</h2>
-      <p class="case-hero__sub">基于 RAG 的智能简历优化工具 — 从使用者到构建者的第一步</p>
+      <p class="case-hero__label">AI 产品项目</p>
+      <h2 class="case-hero__title">Resume Matcher — AI 简历助手</h2>
+      <p class="case-hero__sub">从真实求职痛点出发，构建一站式 AI 简历优化工具</p>
       <div class="case-hero__tags">
-        <span class="case-hero__tag">RAG</span>
-        <span class="case-hero__tag">Python</span>
-        <span class="case-hero__tag">LLM</span>
-        <span class="case-hero__tag">AI Agent</span>
+        <span class="case-hero__tag">AI 产品</span>
+        <span class="case-hero__tag">Vibecoding</span>
+        <span class="case-hero__tag">SaaS</span>
+        <span class="case-hero__tag">从 0 到 1</span>
       </div>
     </div>
 
     <div class="metrics-strip">
-      <div class="metrics-strip__item">
-        <span class="metrics-strip__number">—</span>
-        <span class="metrics-strip__label">状态：开发中</span>
+      <p style="font-size:1.1rem;color:var(--muted);text-align:center;max-width:36rem;margin:0 auto;line-height:1.7;">从发现真实痛点到做出可用的产品 — 我的 AI 产品经理第一步实践</p>
+    </div>
+
+    <!-- 产品截图 Gallery — 核心功能 -->
+    <div class="screenshot-gallery">
+      <div class="screenshot-gallery__item">
+        <div class="screenshot-gallery__media">
+          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+        </div>
+        <p class="screenshot-gallery__label">6维度匹配评分</p>
       </div>
-      <div class="metrics-strip__item">
-        <span class="metrics-strip__number">RAG</span>
-        <span class="metrics-strip__label">核心技术</span>
+      <div class="screenshot-gallery__item">
+        <div class="screenshot-gallery__media">
+          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+        </div>
+        <p class="screenshot-gallery__label">AI 逐条修改建议</p>
       </div>
-      <div class="metrics-strip__item">
-        <span class="metrics-strip__number">JD</span>
-        <span class="metrics-strip__label">匹配引擎</span>
+      <div class="screenshot-gallery__item">
+        <div class="screenshot-gallery__media">
+          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+        </div>
+        <p class="screenshot-gallery__label">一键导出 PDF</p>
       </div>
     </div>
 
     <div class="case-section">
-      <div class="case-section__media">
-        <div class="case-section__media-placeholder">应用界面截图 / 使用流程</div>
-      </div>
-      <div class="case-section__text">
-        <h3>项目背景</h3>
-        <p>作为求职者，我发现每次投递都需要根据目标岗位定制简历，手动比对 JD 和简历耗时且容易遗漏关键点。于是决定用 AI 自动化这个流程。</p>
+      <div class="case-section__text" style="max-width:100%;">
+        <h3>我发现了什么问题</h3>
+        <p>投简历是每个求职者的日常，但这个过程充满了低效和不确定性：</p>
         <ul>
-          <li>上传简历后，AI 自动解析关键信息（教育、技能、经历）</li>
-          <li>输入目标岗位 JD，AI 进行语义匹配分析</li>
-          <li>输出针对性优化建议，突出匹配度高的部分</li>
+          <li><strong>手动定制耗时</strong> — 每份 JD 需要逐条对比简历，调整措辞和重点，一份定制简历至少 30 分钟</li>
+          <li><strong>匹配度不可见</strong> — 投递后石沉大海，不知道是因为技能不匹配还是表达不到位</li>
+          <li><strong>现有工具是黑盒</strong> — 市面上的 AI 简历工具一键生成，看不到匹配逻辑，用户没有掌控感</li>
         </ul>
+        <p>于是决定自己做一个 — 不只是调用 AI API，而是从<strong>真实用户需求</strong>出发，构建一个完整的产品。</p>
       </div>
     </div>
 
     <div class="process-steps">
-      <p class="process-steps__title">技术流程</p>
+      <p class="process-steps__title">产品决策</p>
       <div class="process-steps__row">
         <div class="process-step">
           <span class="process-step__num">01</span>
-          <p class="process-step__title">简历解析</p>
-          <p class="process-step__desc">PDF/Word 简历上传后，提取结构化信息（教育、技能、工作经历）</p>
+          <p class="process-step__title">MVP 优先</p>
+          <p class="process-step__desc">先做核心链路（上传简历 → AI 定制 → 导出 PDF），验证价值后再扩展 JD 分析、简历润色等模块</p>
         </div>
         <div class="process-step">
           <span class="process-step__num">02</span>
-          <p class="process-step__title">JD 语义分析</p>
-          <p class="process-step__desc">解析岗位 JD，提取关键要求和加分项，构建能力模型</p>
+          <p class="process-step__title">量化而非黑盒</p>
+          <p class="process-step__desc">不只生成优化建议，更给出 6 维度匹配评分（技能/经验/教育/语言/项目/综合），让用户看到差距在哪</p>
         </div>
         <div class="process-step">
           <span class="process-step__num">03</span>
-          <p class="process-step__title">RAG 检索增强</p>
-          <p class="process-step__desc">基于向量数据库检索相关行业知识，补充优化建议的上下文</p>
+          <p class="process-step__title">用户掌控感</p>
+          <p class="process-step__desc">每条 AI 修改建议都可逐条确认或拒绝，AI 是辅助而非替代——保持用户的决策权</p>
         </div>
         <div class="process-step">
           <span class="process-step__num">04</span>
-          <p class="process-step__title">优化建议生成</p>
-          <p class="process-step__desc">LLM 对比简历与 JD 差距，生成分点优化建议 + 修改示例</p>
+          <p class="process-step__title">覆盖真实场景</p>
+          <p class="process-step__desc">不只中文简历，而是 4 语言支持 + 4 套模板，覆盖海投、转行、海外求职等多种真实场景</p>
         </div>
       </div>
     </div>
 
-    <div class="case-results">
-      <span class="case-results__label">项目收获</span>
-      <p class="case-results__title">从 0 到 1 构建 AI 应用的完整经验</p>
-      <p>这个项目是我转行 AI 的第一步实战练习。通过亲手搭建 RAG 系统，我理解了向量数据库、Prompt 工程和 LLM 应用架构的核心概念。更重要的是，这是我作为「AI 产品经理」视角的起点——从自己的真实需求出发，用 AI 解决问题。</p>
+    <!-- 产品截图 Gallery — 进阶功能 -->
+    <div class="screenshot-gallery" style="margin-top:4rem;">
+      <div class="screenshot-gallery__item">
+        <div class="screenshot-gallery__media">
+          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+        </div>
+        <p class="screenshot-gallery__label">JD 智能分析</p>
+      </div>
+      <div class="screenshot-gallery__item">
+        <div class="screenshot-gallery__media">
+          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+        </div>
+        <p class="screenshot-gallery__label">GitHub 项目推荐</p>
+      </div>
+      <div class="screenshot-gallery__item">
+        <div class="screenshot-gallery__media">
+          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+        </div>
+        <p class="screenshot-gallery__label">简历智能解析</p>
+      </div>
+    </div>
+
+        <!-- AI 人机协作板块 -->
+    <div class="collab-section">
+      <p class="collab-section__title">AI 人机协作 — 我的新工作流</p>
+      <div class="collab-cards">
+        <div class="collab-card">
+          <span class="collab-card__emoji">👩‍💻</span>
+          <p class="collab-card__title">我的角色：产品经理</p>
+          <ul class="collab-card__list">
+            <li>发现真实用户痛点，定义产品方向</li>
+            <li>写 PRD 文档，明确功能边界和优先级</li>
+            <li>做产品决策：P0-P3 分级，砍掉不重要的事</li>
+            <li>验证 AI 生成的代码，确保符合需求</li>
+          </ul>
+          <p class="collab-card__note">核心能力不是写代码，而是知道该做什么、不该做什么</p>
+        </div>
+        <div class="collab-card">
+          <span class="collab-card__emoji">🤖</span>
+          <p class="collab-card__title">AI 的角色：执行者</p>
+          <ul class="collab-card__list">
+            <li>Claude Code 负责 100% 代码编写</li>
+            <li>根据 PRD 文档理解产品全貌，分模块实现</li>
+            <li>自动生成单元测试（127个）+ E2E 测试</li>
+            <li>遵循 Git 规范，保持代码可维护</li>
+          </ul>
+          <p class="collab-card__note">AI 不是替代我，而是让我从执行者变成决策者</p>
+        </div>
+        <div class="collab-card">
+          <span class="collab-card__emoji">🔄</span>
+          <p class="collab-card__title">协作模式：PRD → Review → 迭代</p>
+          <ul class="collab-card__list">
+            <li>① 我写 PRD → AI 理解产品全貌</li>
+            <li>② AI 分模块逐步实现 → 我逐条 Review</li>
+            <li>③ 发现问题 → 反馈给 AI → AI 修复</li>
+            <li>④ 循环迭代直到通过验收标准</li>
+          </ul>
+          <p class="collab-card__note">这不止是"用AI写代码"，而是一套可复制的人机协作工作流</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 完整产品流程 -->
+    <div class="product-flow">
+      <p class="product-flow__title">完整产品流程 — 从 0 到 1 全链路</p>
+      <div class="product-flow__row">
+        <div class="product-flow__step">
+          <p class="product-flow__step-num">Step 1</p>
+          <p class="product-flow__step-title">发现痛点</p>
+          <p class="product-flow__step-desc">手动改简历太耗时，市面工具是黑盒，匹配度不可量化</p>
+        </div>
+        <div class="product-flow__step">
+          <p class="product-flow__step-num">Step 2</p>
+          <p class="product-flow__step-title">用户调研</p>
+          <p class="product-flow__step-desc">了解求职者的真实需求：要看到差距、要掌控感、要多种场景</p>
+        </div>
+        <div class="product-flow__step">
+          <p class="product-flow__step-num">Step 3</p>
+          <p class="product-flow__step-title">PRD 文档</p>
+          <p class="product-flow__step-desc">定义 P0-P3 优先级，明确功能边界，先做核心链路验证价值</p>
+        </div>
+        <div class="product-flow__step">
+          <p class="product-flow__step-num">Step 4</p>
+          <p class="product-flow__step-title">AI 分模块开发</p>
+          <p class="product-flow__step-desc">Claude Code 按 PRD 逐步实现，每个模块独立测试验证</p>
+        </div>
+        <div class="product-flow__step">
+          <p class="product-flow__step-num">Step 5</p>
+          <p class="product-flow__step-title">测试验证</p>
+          <p class="product-flow__step-desc">127 单元测试 + 15 E2E 测试，确保每个功能稳定可用</p>
+        </div>
+        <div class="product-flow__step">
+          <p class="product-flow__step-num">Step 6</p>
+          <p class="product-flow__step-title">持续迭代</p>
+          <p class="product-flow__step-desc">根据使用反馈优化产品，先验证核心价值再扩展功能</p>
+        </div>
+      </div>
+    </div>
+
+<div class="case-results">
+      <span class="case-results__label">Vibecoding 实战 & 收获</span>
+      <p class="case-results__title">用 AI 做出产品，不只是会写 Prompt</p>
+      <p>这个项目的特别之处在于——<strong>代码 100% 由 Claude Code 生成</strong>，我的角色是产品经理：定义需求、做决策、验证结果。</p>
       <ul>
-        <li>理解 RAG 架构原理（Embedding → 检索 → 增强生成）</li>
-        <li>掌握 Prompt Engineering 在产品场景中的实际应用</li>
-        <li>体验从需求 → 设计 → 开发的完整产品流程</li>
+        <li><strong>协作流程</strong>：先写 PRD 让 AI 理解产品全貌 → 分模块逐步实现 → 我负责产品决策和 review，AI 负责写代码</li>
+        <li><strong>产品思维</strong>：从用户真实需求出发，定义 P0-P3 优先级，敢于砍掉不重要的事，先验证核心价值</li>
+        <li><strong>技术理解</strong>：理解了 LLM 应用架构、Prompt Engineering、前后端协作——不需要自己写代码，但能和工程师在同一语境下沟通</li>
+        <li><strong>职业化工作流</strong>：127 个单元测试 + 15 个 E2E 测试 + PRD 文档 + Git 规范——不是 Demo，是可维护的产品</li>
       </ul>
     </div>
+
+    <!-- GitHub 链接 -->
+    <div style="text-align:center;margin:3rem 0 4rem;">
+      <a class="cta visit-btn" href="https://github.com/mountainwaterr/JD-Resume-Match" target="_blank" style="display:inline-flex;">
+        <span>查看 GitHub 仓库</span>
+        <span class="cta__icon-wrap">
+          <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+          <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+        </span>
+      </a>
+    </div>
+
+    <!-- 其他作品 -->
+    <div class="case-section">
+      <div class="case-section__text" style="max-width:100%;">
+        <h3>其他作品</h3>
+        <p style="font-size:1.5rem;font-weight:500;color:var(--primary);margin-bottom:0.5rem;">个人网站作品集</p>
+        <p>你现在看到的这个网站本身也是一件 Vibecoding 作品——用 <strong>Claude Code</strong> 从零搭建，参考 <strong>federicopian.com</strong> 的设计语言，在一份 HTML 文件里完成了响应式布局、Canvas 动画、GSAP 交互和暗色模式切换。</p>
+        <p>从设计到开发到部署，全程用 AI 协作完成——这是我对「AI 时代产品经理新工作流」的一次完整实践。</p>
+        <a class="cta visit-btn" href="https://github.com/mountainwaterr/portfolio" target="_blank" style="display:inline-flex;margin-top:1rem;">
+          <span>查看 GitHub 仓库</span>
+          <span class="cta__icon-wrap">
+            <svg class="cta__icon" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+            <svg class="cta__icon cta__icon--clone" viewBox="0 0 30 17" fill="none"><path d="M21.7 0.4L28.9 8.7L22.4 16.3"/><path d="M28.9 8.7H0.2"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
   </div>
 </section>
 <!-- CHAPTER 4 — CONTACT -->
@@ -977,7 +1221,7 @@ body.detail-active .detail-next {
 </div>
 <div class="progress-desc" id="progressDesc">AI Native / 内容创作 / 快速学习</div>
 <div class="chapter-preview" id="chapterPreview">
-  <img class="chapter-preview__img" id="chapterPreviewImg" src="" alt="Preview">
+  <img class="chapter-preview__img" id="chapterPreviewImg" src="0b4dc3b42a5221330421131252cf905b.jpg" alt="Preview">
 </div>
 
 <script>
@@ -1102,7 +1346,14 @@ body.detail-active .detail-next {
   }
 
   function goTo(idx, dir) {
-    if (idx < 0 || idx >= TOTAL || idx === current || animating) return;
+    if (idx < 0 || idx >= TOTAL || animating) return;
+    if (idx === current) {
+      // Still update preview image for initial load case
+      if (chapterPreviewImg && chapterImages[current]) {
+        chapterPreviewImg.src = chapterImages[current];
+      }
+      return;
+    }
     animating = true;
     const prev = current;
     current = idx;
