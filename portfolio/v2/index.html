@@ -175,8 +175,9 @@ body.detail-active .scroll-indicator { opacity: 0; pointer-events: none; }
 @media (min-width: 1024px) { .chapter.detail-mode { padding-top: 14rem; padding-bottom: 10rem; } }
 .chapter__overview { transition: opacity 0.4s ease; }
 .chapter.detail-mode .chapter__overview { display: none; }
-.chapter__detail { display: none; max-width: 90rem; margin: 0 auto; text-align: left; width: 100%; padding: 0 2rem; }
+.chapter__detail { display: none; max-width: 90rem; margin: 0 auto; text-align: left; width: 100%; padding: 0; }
 @media (min-width: 1024px) { .chapter__detail { max-width: none; padding: 0; } }
+@media (max-width: 1023px) { .chapter__detail { padding: 0; } }
 .chapter.detail-mode .chapter__detail { display: block; }
 .detail-content h3 { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; font-size: 1.6rem; font-weight: 500; color: var(--primary); letter-spacing: -0.05em; margin: 2.5rem 0 0.8rem; }
 @media (min-width: 1024px) { .detail-content h3 { font-size: 2rem; } }
@@ -499,12 +500,16 @@ body.detail-active .detail-next {
 @media (max-width: 1023px) { .screenshot-gallery { flex-direction: row; overflow-x: auto; gap: 1rem; padding-bottom: 1rem; -webkit-overflow-scrolling: touch; } }
 @media (min-width: 1024px) { .screenshot-gallery { gap: 2rem; margin-bottom: 6rem; } }
 .screenshot-gallery__item { flex: 1; min-width: 0; border-radius: 1.5rem; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 4/3; background: var(--circle-bg); display: flex; flex-direction: column; transition: border-color 0.3s var(--ease-color), background 0.3s var(--ease-color); cursor: default; }
-@media (max-width: 1023px) { .screenshot-gallery__item { flex: 0 0 16rem; aspect-ratio: 3/4; } }
+@media (max-width: 1023px) { .screenshot-gallery__item { flex: 0 0 14.5rem; aspect-ratio: 3/4; } }
 .screenshot-gallery__media { flex: 1; display: flex; align-items: center; justify-content: center; background: var(--circle-bg); overflow: hidden; position: relative; transition: background 0.3s var(--ease-color); }
 .screenshot-gallery__media img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
 .screenshot-gallery__media-placeholder { font-size: 2.8rem; color: var(--muted); opacity: 0.4; transition: color 0.3s var(--ease-color); }
 .screenshot-gallery__label { font-size: 1rem; font-weight: 500; color: var(--primary); text-align: center; padding: 0.65rem 1rem; border-top: 1px solid var(--border); letter-spacing: -0.02em; background: var(--bg); transition: color 0.3s var(--ease-color), border-color 0.3s var(--ease-color), background 0.3s var(--ease-color); }
 @media (min-width: 1024px) { .screenshot-gallery__label { font-size: 1.15rem; padding: 0.75rem 1rem; } }
+
+/* 竖屏截图适配 */
+.screenshot-gallery__item--portrait { max-width: 18rem; }
+@media (min-width: 1024px) { .screenshot-gallery__item--portrait { max-width: 20rem; flex: 0 0 18rem; } }
 
 /* AI 协作卡片 */
 .collab-section { margin-bottom: 4rem; }
@@ -768,7 +773,7 @@ body.detail-active .detail-next {
 	  <div class="chapter__detail detail-content">
 	    <!-- BIGO CASE STUDY — 产品运营视角 -->
 	<div class="case-section">
-		      <div class="case-section__media" style="height:480px; overflow-x:auto; overflow-y:hidden; display:flex; flex-direction:row; gap:0.75rem; align-items:flex-start;">
+		      <div class="case-section__media" style="height:clamp(16rem,55vh,34rem); overflow-x:auto; overflow-y:hidden; display:flex; flex-direction:row; gap:0.75rem; align-items:flex-start;">
 		        <img src="screenshots/5c36e4457f6d4324b28e852b53486ca5.jpg" alt="账号主页" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
 		        <img src="screenshots/07cf2d2a2a40ad2396e137dada1bbaac.jpg" alt="运营数据截图1" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
 		        <img src="screenshots/ed36a104aa715881381527afff40699a.jpg" alt="运营数据截图2" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
@@ -873,7 +878,7 @@ body.detail-active .detail-next {
 	    </div>
 
 	    <div class="case-section">
-	      <div class="case-section__media" style="height:420px; overflow-x:auto; overflow-y:hidden; display:flex; flex-direction:row; gap:0.75rem; align-items:flex-start;">
+	      <div class="case-section__media" style="height:clamp(14rem,48vh,30rem); overflow-x:auto; overflow-y:hidden; display:flex; flex-direction:row; gap:0.75rem; align-items:flex-start;">
 		        <img src="screenshots/bba775a66ab12c754042bfe3d230a530.jpg" alt="自媒体截图1" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
 		        <img src="screenshots/21c667d3c357a070dd6c4182a4669fc1.png" alt="自媒体截图2" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
 		        <img src="screenshots/419616fffcd9901d772e58a8a7e53a93.jpg" alt="自媒体截图3" style="height:100%; width:auto; display:block; border-radius:0.75rem; flex-shrink:0;">
@@ -938,10 +943,7 @@ body.detail-active .detail-next {
         <!-- 产品展示型封面 -->
     <div class="product-showcase">
       <div class="product-showcase__media">
-        <div class="product-showcase__media-placeholder">
-          <span>🖥️</span>
-          <p>Resume Matcher 产品截图</p>
-        </div>
+        <img src="d2b96f93976b5d193d8fc9df6411857f.png" alt="Resume Matcher 产品截图">
       </div>
       <div class="product-showcase__info">
         <p class="product-showcase__name">Resume Matcher</p>
@@ -994,21 +996,15 @@ body.detail-active .detail-next {
     <div class="screenshot-gallery">
       <div class="screenshot-gallery__item">
         <div class="screenshot-gallery__media">
-          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+          <img src="14b6adff6c0ddcb027645833bd9f7a48.png" alt="6维度匹配评分">
         </div>
         <p class="screenshot-gallery__label">6维度匹配评分</p>
       </div>
-      <div class="screenshot-gallery__item">
+      <div class="screenshot-gallery__item screenshot-gallery__item--portrait">
         <div class="screenshot-gallery__media">
-          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+          <img src="ae258beaf49de95da426d6c52626a207.png" alt="AI逐条修改建议">
         </div>
         <p class="screenshot-gallery__label">AI 逐条修改建议</p>
-      </div>
-      <div class="screenshot-gallery__item">
-        <div class="screenshot-gallery__media">
-          <span class="screenshot-gallery__media-placeholder">[ ]</span>
-        </div>
-        <p class="screenshot-gallery__label">一键导出 PDF</p>
       </div>
     </div>
 
@@ -1055,19 +1051,19 @@ body.detail-active .detail-next {
     <div class="screenshot-gallery" style="margin-top:4rem;">
       <div class="screenshot-gallery__item">
         <div class="screenshot-gallery__media">
-          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+          <img src="6862e7ead68cbf1e062f8339b967104d.png" alt="JD智能分析">
         </div>
         <p class="screenshot-gallery__label">JD 智能分析</p>
       </div>
       <div class="screenshot-gallery__item">
         <div class="screenshot-gallery__media">
-          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+          <img src="4d31ef17f93f70bc2cb985c7e0cf8aa3.png" alt="JD推荐开源项目">
         </div>
-        <p class="screenshot-gallery__label">GitHub 项目推荐</p>
+        <p class="screenshot-gallery__label">JD 推荐开源项目</p>
       </div>
       <div class="screenshot-gallery__item">
         <div class="screenshot-gallery__media">
-          <span class="screenshot-gallery__media-placeholder">[ ]</span>
+          <img src="a02f67ab56849697d4954b4ec68bc18e.png" alt="简历智能解析">
         </div>
         <p class="screenshot-gallery__label">简历智能解析</p>
       </div>
